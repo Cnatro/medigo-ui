@@ -1,20 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "./modules/auth/LoginPage";
-import RegisterPage from "./modules/auth/RegisterPage";
-import HomePage from "./modules/home/HomePage";
-import ProtectedRoute from "./shared/components/ProtectedRoute";
-import PublicRoute from "./shared/components/PublicRoute";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginPage from './modules/auth/LoginPage';
+import RegisterPage from './modules/auth/RegisterPage';
+import ProtectedRoute from './shared/components/ProtectedRoute';
+import PublicRoute from './shared/components/PublicRoute';
+import DoctorPage from './modules/doctor/DoctorPage';
+import DoctorDetail from './modules/doctor/DoctorDetail';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <HomePage />
+              <DoctorPage />
             </ProtectedRoute>
           }
         />
@@ -39,6 +39,14 @@ function App() {
           }
         />
 
+        <Route
+          path="/doctors/:id"
+          element={
+            <ProtectedRoute>
+              <DoctorDetail />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
