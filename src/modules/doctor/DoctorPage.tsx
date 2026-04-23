@@ -6,12 +6,16 @@ import type { FilterOptions } from './doctorService';
 import FilterSidebar from './FilterSidebar';
 import DoctorCard from './DoctorCard';
 import AIChatAssistant from './AIChatAssistant';
+import { useAuth } from '../../shared/components/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const DoctorPage: React.FC = () => {
   const { doctors, loading, error, fetchDoctors, filterDoctors } = useDoctor();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAIChat, setShowAIChat] = useState(false);
   const headerRef = useRef<HTMLDivElement | null>(null);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const [filters, setFilters] = useState<FilterOptions>({
     sortBy: 'rating',
@@ -77,11 +81,21 @@ const DoctorPage: React.FC = () => {
 
           <div className="d-flex align-items-center gap-3">
             <i className="fas fa-bell text-secondary"></i>
-            <div className="d-flex align-items-center gap-2">
-              <div className="avatar-circle">
-                <i className="fas fa-user-md"></i>
+            <div
+              className="d-flex align-items-center gap-2"
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate('/profile')}
+            >
+              <div className="doctor-avatar-mini">
+                {currentUser?.avatar_url ? (
+                  <img src={currentUser.avatar_url} alt="avatar" />
+                ) : (
+                  <div className="avatar-fallback">
+                    <i className="fas fa-user-md"></i>
+                  </div>
+                )}
               </div>
-              <span>Nguyễn Thị Hương</span>
+              <span>{currentUser?.full_name || 'User'}</span>
             </div>
           </div>
         </div>

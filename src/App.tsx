@@ -1,53 +1,65 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import LoginPage from './modules/auth/LoginPage';
 import RegisterPage from './modules/auth/RegisterPage';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import PublicRoute from './shared/components/PublicRoute';
 import DoctorPage from './modules/doctor/DoctorPage';
 import DoctorDetail from './modules/doctor/DoctorDetail';
+import { AuthProvider } from './shared/components/AuthContext';
+import ProfilePage from './modules/auth/ProfilePage';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <DoctorPage />
-            </ProtectedRoute>
-          }
-        />
+      <AuthProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <DoctorPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Login */}
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
 
-        {/* Register */}
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <RegisterPage />
-            </PublicRoute>
-          }
-        />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegisterPage />
+              </PublicRoute>
+            }
+          />
 
-        <Route
-          path="/doctors/:id"
-          element={
-            <ProtectedRoute>
-              <DoctorDetail />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/doctors/:id"
+            element={
+              <ProtectedRoute>
+                <DoctorDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
