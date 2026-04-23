@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from './hooks/useAuth';
 import type { RegisterPayload } from './authService';
+import { useAuth } from '../../shared/components/AuthContext';
 
 const RegisterPage: React.FC = () => {
   const [accountType, setAccountType] = useState<'patient' | 'doctor'>('patient');

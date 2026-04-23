@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
-import "./styles/login.css";
-import { useAuth } from "./hooks/useAuth";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import './styles/login.css';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../shared/components/AuthContext';
 
 const LoginPage: React.FC = () => {
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login({ email, password, });
+    await login({ email, password });
   };
 
   return (
@@ -61,8 +61,19 @@ const LoginPage: React.FC = () => {
               </Col>
             </Row>
 
-            <Button type="submit" className="w-100 login-btn">
-              Đăng nhập →
+            <Button
+              type="submit"
+              className="w-100 login-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" />
+                  Đang đăng nhập...
+                </>
+              ) : (
+                'Đăng nhập →'
+              )}
             </Button>
           </Form>
 
@@ -86,7 +97,7 @@ const LoginPage: React.FC = () => {
 
           <div className="terms text-center mt-3">
             Bằng cách đăng nhập, bạn đồng ý với <br />
-            <a href="#">Điều khoản dịch vụ</a> và{" "}
+            <a href="#">Điều khoản dịch vụ</a> và{' '}
             <a href="#">Chính sách bảo mật</a>
           </div>
         </Card.Body>
