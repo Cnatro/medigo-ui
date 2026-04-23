@@ -6,9 +6,8 @@ interface TimeSlotPickerProps {
   doctorId: string;
 }
 
-const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({ doctorId }) => {
+const TimeSlotPicker: React.FC<TimeSlotPickerProps> = () => {
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
-
   // Mock data - sẽ được thay thế bằng API call
   const scheduleDays: ScheduleDay[] = [
     {
