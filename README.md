@@ -2,7 +2,7 @@
 
 ## 1. Cấu trúc thư mục
 
-```
+````
 src/
 │
 ├── api/                 # gọi backend
