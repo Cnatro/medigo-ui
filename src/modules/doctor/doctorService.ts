@@ -83,4 +83,13 @@ export const doctorService = {
   getSpecialties: () => {
     return axiosClient.get('/specialties');
   },
+
+  getTimeSlots: (doctorId: string, startDate: string, endDate: string) => {
+    return axiosClient.get(`/time_slots/${doctorId}/slots`, {
+      params: {
+        start_date: startDate,
+        end_date: endDate,
+      },
+    });
+  },
 };

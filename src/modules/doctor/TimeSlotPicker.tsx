@@ -1,86 +1,74 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ScheduleDay, TimeSlot } from './doctorService';
+import { doctorService } from './doctorService';
 
 interface TimeSlotPickerProps {
   doctorId: string;
 }
 
-const TimeSlotPicker: React.FC<TimeSlotPickerProps> = () => {
+const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({ doctorId }) => {
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
-  // Mock data - sẽ được thay thế bằng API call
-  const scheduleDays: ScheduleDay[] = [
-    {
-      date: '19/4/2026',
-      dayOfWeek: 'Chủ nhật',
-      slots: [
-        { id: '1', time: '08:00', available: true },
-        { id: '2', time: '08:30', available: true },
-        { id: '3', time: '09:00', available: true },
-        { id: '4', time: '09:30', available: true },
-        { id: '5', time: '10:00', available: false, isBooked: true },
-      ],
-    },
-    {
-      date: '20/4/2026',
-      dayOfWeek: 'Thứ 2',
-      slots: [
-        { id: '6', time: '08:00', available: true },
-        { id: '7', time: '08:30', available: false, isBooked: true },
-        { id: '8', time: '09:00', available: true },
-        { id: '9', time: '09:30', available: true },
-      ],
-    },
-    {
-      date: '21/4/2026',
-      dayOfWeek: 'Thứ 3',
-      slots: [
-        { id: '10', time: '08:00', available: true },
-        { id: '11', time: '08:30', available: true },
-        { id: '12', time: '09:00', available: false, isBooked: true },
-      ],
-    },
-    {
-      date: '22/4/2026',
-      dayOfWeek: 'Thứ 4',
-      slots: [
-        { id: '13', time: '08:00', available: true },
-        { id: '14', time: '08:30', available: true },
-        { id: '15', time: '09:00', available: true },
-      ],
-    },
-    {
-      date: '23/4/2026',
-      dayOfWeek: 'Thứ 5',
-      slots: [
-        { id: '16', time: '08:00', available: true },
-        { id: '17', time: '08:30', available: false, isBooked: true },
-      ],
-    },
-    {
-      date: '24/4/2026',
-      dayOfWeek: 'Thứ 6',
-      slots: [
-        { id: '18', time: '08:00', available: true },
-        { id: '19', time: '08:30', available: true },
-        { id: '20', time: '09:00', available: true },
-      ],
-    },
-    {
-      date: '25/4/2026',
-      dayOfWeek: 'Thứ 7',
-      slots: [
-        { id: '21', time: '08:00', available: true },
-        { id: '22', time: '08:30', available: true },
-      ],
-    },
-  ];
+  const [scheduleDays, setScheduleDays] = useState<ScheduleDay[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      if (!doctorId) return;
+
+      setLoading(true);
+      try {
+        const today = new Date();
+        const end = new Date();
+        end.setDate(today.getDate() + 6);
+
+        const formatDate = (d: Date) =>
+          d.toISOString().split('T')[0];
+
+        const res = await doctorService.getTimeSlots(
+          doctorId,
+          formatDate(today),
+          formatDate(end)
+        );
+
+        const raw = res.data.data;
+
+        console.log(raw);
+
+        //  FIX CHÍNH Ở ĐÂY
+        const mapped: ScheduleDay[] = Object.entries(raw).map(
+          ([date, slots]: any) => ({
+            date: new Date(date).toLocaleDateString('vi-VN'),
+            dayOfWeek: new Date(date).toLocaleDateString('vi-VN', {
+              weekday: 'long',
+            }),
+            slots: slots.map((s: any) => ({
+              id: s.id,
+              time: `${s.start_time} - ${s.end_time}`,
+              available: s.is_available,
+              isBooked: !s.is_available,
+            })),
+          })
+        );
+
+        setScheduleDays(mapped);
+      } catch (err) {
+        console.error('Fetch slots error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSlots();
+  }, [doctorId]);
 
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.available && !slot.isBooked) {
       setSelectedSlot(slot);
     }
   };
+
+  if (loading) return <div>Đang tải lịch...</div>;
 
   return (
     <div className="time-slot-picker">
@@ -93,6 +81,7 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = () => {
               </div>
               <div className="day-date small fw-semibold">{day.date}</div>
             </div>
+
             <div className="time-slots">
               {day.slots.map((slot) => (
                 <button
@@ -101,8 +90,8 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = () => {
                     slot.isBooked
                       ? 'booked'
                       : selectedSlot?.id === slot.id
-                        ? 'selected'
-                        : 'available'
+                      ? 'selected'
+                      : 'available'
                   }`}
                   onClick={() => handleSlotClick(slot)}
                   disabled={slot.isBooked || !slot.available}
