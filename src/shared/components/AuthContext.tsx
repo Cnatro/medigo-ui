@@ -23,7 +23,7 @@ interface DoctorProfile {
   clinic?: string;
 }
 
-interface User {
+export interface User {
   id: string;
   full_name: string;
   phone: string;

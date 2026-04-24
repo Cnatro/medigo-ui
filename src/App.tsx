@@ -8,14 +8,37 @@ import DoctorPage from './modules/doctor/DoctorPage';
 import DoctorDetail from './modules/doctor/DoctorDetail';
 import { AuthProvider } from './shared/components/AuthContext';
 import ProfilePage from './modules/auth/ProfilePage';
+import { DashboardDoctor } from './modules/doctor/doctorRole/DashboardDoctor';
+import RoleRedirect from './shared/components/RoleRedirect';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+
           <Route
             path="/"
+            element={
+              <ProtectedRoute>
+                <RoleRedirect />
+              </ProtectedRoute>
+            }
+          />
+
+      
+          <Route
+            path="/doctor-dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardDoctor />
+              </ProtectedRoute>
+            }
+          />
+
+    
+          <Route
+            path="/doctor-page"
             element={
               <ProtectedRoute>
                 <DoctorPage />
@@ -23,6 +46,27 @@ function App() {
             }
           />
 
+     
+          <Route
+            path="/doctors/:id"
+            element={
+              <ProtectedRoute>
+                <DoctorDetail />
+              </ProtectedRoute>
+            }
+          />
+
+     
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
+   
           <Route
             path="/login"
             element={
@@ -41,23 +85,6 @@ function App() {
             }
           />
 
-          <Route
-            path="/doctors/:id"
-            element={
-              <ProtectedRoute>
-                <DoctorDetail />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
