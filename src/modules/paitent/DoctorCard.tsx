@@ -63,16 +63,16 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
               {/* Rating */}
               <div className="rating-wrapper d-flex align-items-center gap-2 mb-3">
                 <div className="stars">
-                  {[...Array(5)].map((_, i) => (
+                  {[1, 2, 3, 4, 5].map((star) => (
                     <i
-                      key={i}
-                      className={`fas fa-star ${i < Math.floor(doctor.rating) ? 'filled' : i < doctor.rating ? 'half' : ''}`}
-                      style={{ fontSize: '14px' }}
+                      key={star}
+                      className={`fas fa-star ${star <= doctor.rating ? 'filled' : ''}`}
+                      style={{ fontSize: '12px' }}
                     ></i>
                   ))}
                 </div>
                 <span className="rating-value fw-semibold">
-                  {doctor.rating} / 5.0
+                  {doctor.rating.toFixed(1)} / 5.0
                 </span>
                 <span className="rating-count">
                   ({doctor.reviewCount} đánh giá)

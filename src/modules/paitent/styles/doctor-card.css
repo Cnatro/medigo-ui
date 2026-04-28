@@ -22,7 +22,6 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
 .doctor-card {
   transition: var(--transition);
 }
@@ -127,36 +126,46 @@
   padding: 6px 12px;
   border-radius: 12px;
   display: inline-flex;
+  align-items: center;
   width: fit-content;
+  gap: 8px;
 }
 
+/* Stars container */
 .stars {
   display: inline-flex;
-  gap: 2px;
-  color: #fbbf24;
+  gap: 3px;
+  align-items: center;
 }
 
+/* Star icon mặc định (màu xám) */
 .stars .fa-star {
-  color: #e5e7eb;
+  color: #d1d5db;
+  font-size: 12px;
+  transition: var(--transition);
 }
 
+/* Star filled (màu vàng) */
 .stars .fa-star.filled {
   color: #fbbf24;
 }
 
-.stars .fa-star.half {
-  color: #fbbf24;
-  position: relative;
-}
-
+/* Rating value */
 .rating-value {
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--gray-700);
 }
 
+/* Rating count */
 .rating-count {
   font-size: 0.7rem;
   color: var(--gray-500);
+}
+
+/* Optional: Hover effect cho stars */
+.rating-wrapper:hover .stars .fa-star {
+  transform: scale(1.05);
 }
 
 /* Tags */
