@@ -1,0 +1,442 @@
+.layout {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f9fafb;
+  z-index: -1;
+}
+
+.mainContent {
+  margin-left: 256px;
+  padding: 24px 32px;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 256px;
+  height: 100vh;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.sidebarHeader {
+  padding: 24px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.sidebarNav {
+  padding: 20px 12px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.navItem:hover {
+  background-color: #f3f4f6;
+}
+
+.navItem.active {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+.navIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navLabel {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.navItem.active .navLabel {
+  color: #16a34a;
+}
+
+.navBadge {
+  background-color: #ffedd5;
+  color: #9a3412;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.welcomeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: white;
+  padding: 24px 32px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.greeting {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.fullName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.dateInfo {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.exportBtn {
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.exportBtn:hover {
+  background-color: #e5e7eb;
+}
+
+.lockBtn {
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.lockBtn:hover {
+  background-color: #2563eb;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+}
+
+.profileInfo {
+  text-align: right;
+}
+
+.doctorTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+.doctorDept {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.notificationIcon {
+  cursor: pointer;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.statCardBlue .statValue {
+  color: #2563eb;
+}
+
+.statCardGreen .statValue {
+  color: #16a34a;
+}
+
+.statCardPurple .statValue {
+  color: #9333ea;
+}
+
+.statCardYellow .statValue {
+  color: #ca8a04;
+}
+
+.statValue {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.statSubtext {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.twoColumnLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.appointmentCard, .queueCard, .pendingCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.viewAll {
+  font-size: 14px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.appointmentList, .queueList, .pendingList {
+  padding: 8px 0;
+}
+
+.appointmentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin: 0 12px;
+}
+
+.appointmentItem:hover {
+  background-color: #eff6ff;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+}
+
+.appointmentInfo {
+  flex: 1;
+}
+
+.patientName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.appointmentTime {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.queueItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.queueNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.queueInfo {
+  flex: 1;
+}
+
+.patientNameQueue {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.queueSpecialty {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.queueTime {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.pendingItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.patientInitial {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pendingInfo {
+  flex: 1;
+}
+
+.patientNamePending {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.pendingDateTime {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.pendingActions {
+  display: flex;
+  gap: 12px;
+}
+
+.confirmBtn, .rejectBtn {
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.confirmBtn {
+  background-color: #22c55e;
+  color: white;
+}
+
+.rejectBtn {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.confirmBtn:hover, .rejectBtn:hover {
+  opacity: 0.9;
+}
+
+.pendingBadge {
+  background-color: #e5e7eb;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #374151;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 18px;
+  color: #6b7280;
+}

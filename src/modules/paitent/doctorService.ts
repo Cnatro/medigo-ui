@@ -1,24 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosClient from '../../api/axiosClient';
+
+export interface Specialty {
+  id: string;
+  name: string;
+  price: number;
+  doctorSpecialtyId: string;
+}
 
 export interface Doctor {
   id: string;
   name: string;
-  specialty: string;
   clinic: string;
   experience: number;
   rating: number;
   reviewCount: number;
-  price: number;
   languages: string[];
   acceptsInsurance: boolean;
   isOnline: boolean;
   avatar?: string;
-  specialtyId?: string;
   clinicId?: string;
+
+  specialties: Specialty[];
 }
 
 export interface FilterOptions {
-  sortBy: 'rating' | 'price_asc' | 'price_desc';
+  sortBy: 'rating' | 'price_asc' | 'price_desc' | 'createdAt';
   specialties: string[];
   clinics: string[];
   priceRange: {
@@ -62,12 +69,12 @@ export interface ClinicItem {
 }
 
 export const doctorService = {
-  getDoctors: () => {
-    return axiosClient.get('/doctors');
+  getDoctors: (params?: any) => {
+    return axiosClient.get('/doctors', { params });
   },
 
-  getDoctorById: (id: string, specialtyId: string) => {
-    return axiosClient.get(`/doctors/${id}?specialty_id=${specialtyId}`);
+  getDoctorById: (id: string) => {
+    return axiosClient.get(`/doctors/${id}`);
   },
 
   getDoctorSchedule: (doctorId: string, date: string) => {
@@ -82,5 +89,18 @@ export const doctorService = {
 
   getSpecialties: () => {
     return axiosClient.get('/specialties');
+  },
+
+  getTimeSlots: (
+    doctor_specialty_id: string,
+    startDate: string,
+    endDate: string,
+  ) => {
+    return axiosClient.get(`/time_slots/${doctor_specialty_id}/slots`, {
+      params: {
+        start_date: startDate,
+        end_date: endDate,
+      },
+    });
   },
 };
