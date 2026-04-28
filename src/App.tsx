@@ -4,12 +4,12 @@ import LoginPage from './modules/auth/LoginPage';
 import RegisterPage from './modules/auth/RegisterPage';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import PublicRoute from './shared/components/PublicRoute';
-import DoctorPage from './modules/doctor/DoctorPage';
-import DoctorDetail from './modules/doctor/DoctorDetail';
 import { AuthProvider } from './shared/components/AuthContext';
 import ProfilePage from './modules/auth/ProfilePage';
-import { DashboardDoctor } from './modules/doctor/doctorRole/DashboardDoctor';
+import { DashboardDoctor } from './modules/doctor/DashboardDoctor';
 import RoleRedirect from './shared/components/RoleRedirect';
+import DoctorPage from './modules/paitent/DoctorPage';
+import DoctorDetail from './modules/paitent/DoctorDetail';
 
 function App() {
   return (

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../shared/components/AuthContext';
 import './styles/profile.css';
 import { useNavigate } from 'react-router-dom';
+import ScreenLoading from '../../shared/utils/loading';
 
 const ProfilePage: React.FC = () => {
   const { currentUser, logout, fetchCurrentUser, updateCurrentUser } =
@@ -24,7 +25,10 @@ const ProfilePage: React.FC = () => {
     }
   }, [currentUser]);
 
-  if (!currentUser) return <div className="loading">Loading...</div>;
+  if (!currentUser)
+    return (
+      <ScreenLoading message="Đang tải..." show={loading} />
+    );
 
   const handleUpdate = async () => {
     try {

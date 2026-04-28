@@ -1,0 +1,632 @@
+/* ===================== */
+/* TIME SLOT PICKER */
+/* ===================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --warning: #f59e0b;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.time-slot-picker {
+  margin-top: 24px;
+}
+
+/* ===================== */
+/* LOADING STATE */
+/* ===================== */
+.timeslot-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: var(--gray-50);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.timeslot-loading p {
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ===================== */
+/* EMPTY STATE */
+/* ===================== */
+.empty-slots {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, var(--gray-50), #ffffff);
+  border-radius: 20px;
+  border: 2px dashed var(--gray-200);
+}
+
+.empty-slots i {
+  font-size: 3rem;
+  color: var(--gray-300);
+  margin-bottom: 16px;
+}
+
+.empty-slots p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  margin: 8px 0;
+}
+
+.empty-slots span {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+/* ===================== */
+/* SCHEDULE WRAPPER */
+/* ===================== */
+.schedule-wrapper {
+  overflow-x: auto;
+  padding: 4px 0 8px;
+  border-radius: 20px;
+}
+
+.schedule-grid {
+  display: flex;
+  gap: 16px;
+  min-width: min-content;
+}
+
+/* ===================== */
+/* DAY COLUMN */
+/* ===================== */
+.day-column {
+  flex: 1;
+  min-width: 140px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.day-column:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Day Header */
+.day-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  padding: 16px 12px;
+  text-align: center;
+  color: white;
+}
+
+.day-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+
+.day-date {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Time Slots Container */
+.time-slots {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar */
+.time-slots::-webkit-scrollbar {
+  width: 4px;
+}
+
+.time-slots::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+
+.time-slots::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ===================== */
+/* TIME SLOT BUTTONS */
+/* ===================== */
+.time-slot-btn {
+  width: 100%;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.time-slot-btn i {
+  font-size: 0.7rem;
+}
+
+/* Available Slots */
+.time-slot-btn.available {
+  background: linear-gradient(135deg, var(--success-light), #ffffff);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.time-slot-btn.available:hover {
+  background: var(--success);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.time-slot-btn.available:active {
+  transform: translateY(0);
+}
+
+/* Booked Slots */
+.time-slot-btn.booked {
+  background: linear-gradient(135deg, var(--danger-light), #ffffff);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: not-allowed;
+  opacity: 0.7;
+  position: relative;
+}
+
+.time-slot-btn.booked::before {
+  content: '✕';
+  position: absolute;
+  left: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.time-slot-btn.booked i {
+  margin-left: 12px;
+}
+
+.time-slot-btn.booked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Selected Slot */
+.time-slot-btn.selected {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  border: none;
+  position: relative;
+}
+
+.time-slot-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  right: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.time-slot-btn.selected i {
+  margin-right: 4px;
+}
+
+/* Disabled state */
+.time-slot-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ===================== */
+/* ANIMATIONS */
+/* ===================== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.day-column {
+  animation: slideIn 0.3s ease-out forwards;
+  animation-delay: calc(var(--animation-order, 0) * 0.05s);
+}
+
+/* Stagger animation for columns */
+.day-column:nth-child(1) {
+  --animation-order: 1;
+}
+.day-column:nth-child(2) {
+  --animation-order: 2;
+}
+.day-column:nth-child(3) {
+  --animation-order: 3;
+}
+.day-column:nth-child(4) {
+  --animation-order: 4;
+}
+.day-column:nth-child(5) {
+  --animation-order: 5;
+}
+.day-column:nth-child(6) {
+  --animation-order: 6;
+}
+.day-column:nth-child(7) {
+  --animation-order: 7;
+}
+
+/* Pulse animation for available slots */
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
+  }
+}
+
+.time-slot-btn.available:hover {
+  animation: pulse 0.6s ease-out;
+}
+
+/* ===================== */
+/* RESPONSIVE DESIGN */
+/* ===================== */
+@media (max-width: 992px) {
+  .schedule-grid {
+    gap: 12px;
+  }
+
+  .day-column {
+    min-width: 130px;
+  }
+
+  .day-header {
+    padding: 12px 8px;
+  }
+
+  .day-name {
+    font-size: 0.75rem;
+  }
+
+  .day-date {
+    font-size: 0.85rem;
+  }
+
+  .time-slot-btn {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-wrapper {
+    margin: 0 -16px;
+    padding: 0 16px;
+  }
+
+  .schedule-grid {
+    gap: 10px;
+  }
+
+  .day-column {
+    min-width: 120px;
+  }
+
+  .day-header {
+    padding: 10px 6px;
+  }
+
+  .day-name {
+    font-size: 0.7rem;
+  }
+
+  .day-date {
+    font-size: 0.75rem;
+  }
+
+  .time-slots {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .time-slot-btn {
+    padding: 6px 4px;
+    font-size: 0.7rem;
+  }
+
+  .time-slot-btn i {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .schedule-grid {
+    gap: 8px;
+  }
+
+  .day-column {
+    min-width: 100px;
+  }
+
+  .day-header {
+    padding: 8px 4px;
+  }
+
+  .day-name {
+    font-size: 0.65rem;
+  }
+
+  .day-date {
+    font-size: 0.7rem;
+  }
+
+  .time-slots {
+    padding: 6px;
+    gap: 4px;
+  }
+
+  .time-slot-btn {
+    padding: 4px 2px;
+    font-size: 0.65rem;
+  }
+
+  .time-slot-btn.booked::before {
+    font-size: 0.6rem;
+  }
+
+  .time-slot-btn.selected::after {
+    font-size: 0.7rem;
+  }
+}
+
+/* ===================== */
+/* TOOLTIP FOR BOOKED SLOTS */
+/* ===================== */
+.time-slot-btn.booked {
+  position: relative;
+}
+
+.time-slot-btn.booked:hover::after {
+  content: 'Đã được đặt';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gray-800);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ===================== */
+/* HOVER EFFECT FOR DAY COLUMN */
+/* ===================== */
+.day-column:hover .time-slots {
+  background: linear-gradient(to bottom, transparent, var(--gray-50));
+}
+
+/* ===================== */
+/* SELECTED SLOT HIGHLIGHT */
+/* ===================== */
+.time-slot-btn.selected {
+  position: relative;
+}
+
+.time-slot-btn.selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ===================== */
+/* FOCUS STATE FOR ACCESSIBILITY */
+/* ===================== */
+.time-slot-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  transform: scale(1.02);
+}
+
+/* ===================== */
+/* TOUCH DEVICE OPTIMIZATIONS */
+/* ===================== */
+@media (hover: none) {
+  .time-slot-btn.available:hover {
+    transform: none;
+  }
+
+  .day-column:hover {
+    transform: none;
+  }
+}
+
+.timeslot-loading-container {
+  position: relative;
+  min-height: 400px;
+  width: 100%;
+  background: var(--gray-50);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tạo loading inline đơn giản, không dùng ScreenLoading */
+.inline-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+}
+
+.inline-loading-logo {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inline-loading-logo img {
+  width: 45px;
+  height: 45px;
+  animation: breath 1.5s ease-in-out infinite;
+}
+
+.inline-loading-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid rgba(37, 99, 235, 0.1);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.inline-loading-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+}
+
+.inline-loading-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.inline-loading-dots span {
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.inline-loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+.inline-loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.inline-loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes breath {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+}

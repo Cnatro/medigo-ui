@@ -1,5 +1,5 @@
-import axiosClient from "../../../api/axiosClient";
-import type { User } from "../../../shared/components/AuthContext";
+import axiosClient from "../../api/axiosClient";
+import type { User } from "../../shared/components/AuthContext";
 
 
 export interface DashboardStats {

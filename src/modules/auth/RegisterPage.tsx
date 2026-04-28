@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import type { RegisterPayload } from './authService';
 import { useAuth } from '../../shared/components/AuthContext';
+import ScreenLoading from '../../shared/utils/loading';
 
 const RegisterPage: React.FC = () => {
-  const [accountType, setAccountType] = useState<'patient' | 'doctor'>('patient');
+  const [accountType, setAccountType] = useState<'patient' | 'doctor'>(
+    'patient',
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, isLoading, error } = useAuth();
@@ -24,9 +27,11 @@ const RegisterPage: React.FC = () => {
     gender: 'MALE',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -40,7 +45,7 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    let payload : RegisterPayload;
+    let payload: RegisterPayload;
 
     if (accountType === 'doctor') {
       payload = {
@@ -62,7 +67,7 @@ const RegisterPage: React.FC = () => {
         role: 'PATIENT',
         profile: {
           date_of_birth: formData.dateOfBirth,
-          gender: formData.gender as "MALE" | "FEMALE",
+          gender: formData.gender as 'MALE' | 'FEMALE',
         },
       };
     }
@@ -75,16 +80,23 @@ const RegisterPage: React.FC = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-5">
-
             <div className="card p-4">
               <h3 className="text-center mb-3">Đăng ký</h3>
 
               {/* chọn role */}
               <div className="d-flex gap-2 mb-3">
-                <button type="button" onClick={() => setAccountType('patient')} className="btn btn-outline-primary w-50">
+                <button
+                  type="button"
+                  onClick={() => setAccountType('patient')}
+                  className="btn btn-outline-primary w-50"
+                >
                   Bệnh nhân
                 </button>
-                <button type="button" onClick={() => setAccountType('doctor')} className="btn btn-outline-primary w-50">
+                <button
+                  type="button"
+                  onClick={() => setAccountType('doctor')}
+                  className="btn btn-outline-primary w-50"
+                >
                   Bác sĩ
                 </button>
               </div>
@@ -119,10 +131,12 @@ const RegisterPage: React.FC = () => {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(prev => !prev)}
+                    onClick={() => setShowPassword((prev) => !prev)}
                     className="position-absolute top-50 end-0 translate-middle-y me-3 border-0 bg-transparent"
                   >
-                    <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                    <i
+                      className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                    ></i>
                   </button>
                 </div>
 
@@ -138,10 +152,12 @@ const RegisterPage: React.FC = () => {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowConfirmPassword(prev => !prev)}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
                     className="position-absolute top-50 end-0 translate-middle-y me-3 border-0 bg-transparent"
                   >
-                    <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                    <i
+                      className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                    ></i>
                   </button>
                 </div>
 
@@ -192,15 +208,20 @@ const RegisterPage: React.FC = () => {
                     </select>
                   </>
                 )}
-
-                <button className="btn btn-primary w-100" disabled={isLoading}>
-                  {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
-                </button>
+                {isLoading ? (
+                  <ScreenLoading message="Đang đăng ký..." show={isLoading} />
+                ) : (
+                  <button
+                    className="btn btn-primary w-100"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
+                  </button>
+                )}
 
                 {error && <div className="text-danger mt-2">{error}</div>}
               </form>
             </div>
-
           </div>
         </div>
       </div>

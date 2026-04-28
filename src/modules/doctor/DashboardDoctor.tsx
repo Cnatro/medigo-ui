@@ -8,7 +8,8 @@ import { StatCard } from './StatCard';
 import { AppointmentList } from './AppointmentList';
 import { PendingConfirmations } from './PendingConfirmations';
 import { QueueList } from './QueueList';
-import { useAuth } from '../../../shared/components/AuthContext';
+import { useAuth } from '../../shared/components/AuthContext';
+import ScreenLoading from '../../shared/utils/loading';
 
 export const DashboardDoctor: React.FC = () => {
   const {
@@ -24,7 +25,7 @@ export const DashboardDoctor: React.FC = () => {
   const {currentUser : doctor} = useAuth();
 
   if (loading) {
-    return <div className={styles.loading}>Loading dashboard...</div>;
+    return <ScreenLoading message="Đang tải..." show={loading} />
   }
 
   return (

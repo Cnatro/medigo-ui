@@ -1,0 +1,727 @@
+/* ===================== */
+/* FILTER SIDEBAR CSS */
+/* ===================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================== */
+/* MAIN CONTAINER */
+/* ===================== */
+.filter-sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+/* ===================== */
+/* FILTER CARD */
+/* ===================== */
+.filter-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.filter-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.filter-card-body {
+  padding: 24px;
+}
+
+/* ===================== */
+/* FILTER HEADER */
+/* ===================== */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--gray-100);
+}
+
+.filter-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.filter-title i {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.reset-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: var(--transition);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reset-btn:hover {
+  background: var(--primary-light);
+  transform: translateX(-2px);
+}
+
+.reset-btn:active {
+  transform: translateX(0);
+}
+
+/* ===================== */
+/* FILTER SECTIONS */
+/* ===================== */
+.filter-section {
+  margin-bottom: 28px;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-section-title i {
+  color: var(--primary);
+  font-size: 0.85rem;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===================== */
+/* FILTER SELECT */
+/* ===================== */
+.filter-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  background: white;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.filter-select:hover {
+  border-color: var(--primary-light);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ===================== */
+/* FILTER OPTIONS CONTAINER */
+/* ===================== */
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===================== */
+/* CUSTOM CHECKBOX */
+/* ===================== */
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 32px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  transition: var(--transition);
+  user-select: none;
+}
+
+.filter-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border: 2px solid var(--gray-300);
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.filter-checkbox:hover input ~ .checkmark {
+  border-color: var(--primary);
+}
+
+.filter-checkbox input:checked ~ .checkmark {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  animation: checkmarkPop 0.2s ease-out;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.filter-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.filter-checkbox .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label {
+  margin-left: 4px;
+  transition: var(--transition);
+}
+
+.filter-checkbox:hover .checkbox-label {
+  color: var(--primary);
+  transform: translateX(2px);
+}
+
+/* ===================== */
+/* CUSTOM RADIO */
+/* ===================== */
+.filter-radio {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 32px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  transition: var(--transition);
+  user-select: none;
+}
+
+.filter-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-mark {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border: 2px solid var(--gray-300);
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.filter-radio:hover input ~ .radio-mark {
+  border-color: var(--primary);
+}
+
+.filter-radio input:checked ~ .radio-mark {
+  border-color: var(--primary);
+  background-color: white;
+  animation: radioPop 0.2s ease-out;
+}
+
+@keyframes radioPop {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.radio-mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.filter-radio input:checked ~ .radio-mark:after {
+  display: block;
+}
+
+.filter-radio .radio-mark:after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: radioDotPop 0.2s ease-out;
+}
+
+@keyframes radioDotPop {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+}
+
+/* ===================== */
+/* STAR RATING */
+/* ===================== */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: #d1d5db;
+}
+
+.stars .fa-star {
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.stars .fa-star.filled {
+  color: #fbbf24;
+}
+
+.rating-text {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.filter-radio:hover .rating-text {
+  color: var(--primary);
+}
+
+/* ===================== */
+/* PRICE RANGE */
+/* ===================== */
+.price-range-container {
+  margin-top: 12px;
+}
+
+/* Custom Slider */
+.price-slider {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  background: transparent;
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.price-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.price-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.price-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 4px;
+}
+
+.price-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.price-min,
+.price-max {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.price-min {
+  color: var(--gray-500);
+}
+
+.price-max {
+  color: var(--primary);
+}
+
+/* Price Track Progress */
+.price-track {
+  position: relative;
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: -12px;
+  pointer-events: none;
+}
+
+.price-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+
+/* ===================== */
+/* ACTIVE FILTERS */
+/* ===================== */
+.active-filters {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 2px solid var(--gray-100);
+}
+
+.active-filters-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+
+.active-filters-header i {
+  font-size: 0.9rem;
+}
+
+.active-filters-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tag {
+  background: linear-gradient(135deg, var(--primary-light), #ffffff);
+  color: var(--primary-dark);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-tag:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-tag::before {
+  content: "✓";
+  font-size: 0.65rem;
+  font-weight: bold;
+}
+
+/* ===================== */
+/* RESPONSIVE DESIGN */
+/* ===================== */
+@media (max-width: 992px) {
+  .filter-sidebar {
+    position: relative;
+    top: 0;
+    margin-bottom: 24px;
+  }
+  
+  .filter-card-body {
+    padding: 20px;
+  }
+  
+  .filter-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-card-body {
+    padding: 16px;
+  }
+  
+  .filter-header {
+    margin-bottom: 16px;
+  }
+  
+  .filter-title {
+    font-size: 1rem;
+  }
+  
+  .filter-section {
+    margin-bottom: 20px;
+  }
+  
+  .filter-options {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .filter-section-title {
+    font-size: 0.85rem;
+  }
+  
+  .price-labels {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-card {
+    border-radius: 16px;
+  }
+  
+  .filter-card-body {
+    padding: 14px;
+  }
+  
+  .filter-section-title {
+    margin-bottom: 12px;
+  }
+  
+  .filter-checkbox,
+  .filter-radio {
+    font-size: 0.8rem;
+  }
+  
+  .stars .fa-star {
+    font-size: 0.75rem;
+  }
+  
+  .active-filters-list {
+    gap: 6px;
+  }
+  
+  .filter-tag {
+    padding: 3px 10px;
+    font-size: 0.65rem;
+  }
+}
+
+/* ===================== */
+/* ANIMATIONS */
+/* ===================== */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.active-filters {
+  animation: slideDown 0.3s ease-out;
+}
+
+.filter-tag {
+  animation: slideDown 0.2s ease-out forwards;
+  animation-delay: calc(var(--animation-order, 0) * 0.03s);
+}
+
+.filter-section {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Stagger animation for filter sections */
+.filter-section:nth-child(1) { animation-delay: 0s; }
+.filter-section:nth-child(2) { animation-delay: 0.05s; }
+.filter-section:nth-child(3) { animation-delay: 0.1s; }
+.filter-section:nth-child(4) { animation-delay: 0.15s; }
+.filter-section:nth-child(5) { animation-delay: 0.2s; }
+
+/* ===================== */
+/* TOOLTIP & ACCESSIBILITY */
+/* ===================== */
+.filter-checkbox:focus-within .checkmark,
+.filter-radio:focus-within .radio-mark {
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.filter-checkbox input:focus-visible ~ .checkmark,
+.filter-radio input:focus-visible ~ .radio-mark {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ===================== */
+/* SCROLLBAR FOR FILTER OPTIONS */
+/* ===================== */
+.filter-options::-webkit-scrollbar {
+  width: 4px;
+}
+
+.filter-options::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 10px;
+}
+
+.filter-options::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+
+.filter-options::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ===================== */
+/* PRINT STYLES */
+/* ===================== */
+@media print {
+  .filter-sidebar {
+    position: static;
+    box-shadow: none;
+  }
+  
+  .reset-btn {
+    display: none;
+  }
+  
+  .filter-checkbox,
+  .filter-radio {
+    break-inside: avoid;
+  }
+}
+
+/* ===================== */
+/* DARK MODE SUPPORT (OPTIONAL) */
+/* ===================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gray-50: #1a1a1a;
+    --gray-100: #2a2a2a;
+    --gray-200: #3a3a3a;
+    --gray-300: #4a4a4a;
+    --gray-500: #9ca3af;
+    --gray-600: #b0b5c0;
+    --gray-700: #c5c9d0;
+    --gray-800: #e0e2e6;
+  }
+  
+  .filter-card {
+    background: #2a2a2a;
+  }
+  
+  .filter-select {
+    background: #1a1a1a;
+    color: var(--gray-800);
+  }
+  
+  .checkmark,
+  .radio-mark {
+    background: #1a1a1a;
+  }
+}

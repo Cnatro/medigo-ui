@@ -1,4 +1,3 @@
-// src/modules/doctor/AppointmentList.tsx
 import React from 'react';
 import styles from'./styles/DoctorDashboard.module.css'
 import type { Appointment } from './doctorDashboardService';

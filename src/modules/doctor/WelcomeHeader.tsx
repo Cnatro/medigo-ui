@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles/DoctorDashboard.module.css';
-import type { User } from '../../../shared/components/AuthContext';
+import type { User } from '../../shared/components/AuthContext';
 
 interface WelcomeHeaderProps {
   doctor: User | null;

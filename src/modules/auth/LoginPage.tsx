@@ -3,6 +3,7 @@ import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
 import './styles/login.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../shared/components/AuthContext';
+import ScreenLoading from '../../shared/utils/loading';
 
 const LoginPage: React.FC = () => {
   const { login, isLoading } = useAuth();
@@ -67,10 +68,7 @@ const LoginPage: React.FC = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" />
-                  Đang đăng nhập...
-                </>
+                <ScreenLoading message="Đang đăng nhập..." show={isLoading} />
               ) : (
                 'Đăng nhập →'
               )}
