@@ -62,7 +62,7 @@ const DoctorPage: React.FC = () => {
         page: currentPage,
         size: pageSize,
       });
-    }, 400);
+    }, 1000);
 
     return () => clearTimeout(delay);
   }, [searchTerm, filters, currentPage]);
