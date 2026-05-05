@@ -4,9 +4,13 @@ import type { User } from '../../shared/components/AuthContext';
 
 interface WelcomeHeaderProps {
   doctor: User | null;
+  logout: () => void;
 }
 
-export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ doctor }) => {
+export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
+  doctor,
+  logout,
+}) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('vi-VN', {
     weekday: 'long',
@@ -16,9 +20,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ doctor }) => {
   });
 
   const clinic =
-    doctor?.profile && 'clinic' in doctor.profile
-      ? doctor.profile.clinic
-      : '';
+    doctor?.profile && 'clinic' in doctor.profile ? doctor.profile.clinic : '';
 
   const specialty =
     doctor?.profile && 'specialty' in doctor.profile
@@ -34,9 +36,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ doctor }) => {
 
         <p className={styles.fullName}>{doctor?.full_name || ''}</p>
 
-        <p className={styles.dateInfo}>
-          {formattedDate} - 8 cuộc hẹn hôm nay
-        </p>
+        <p className={styles.dateInfo}>{formattedDate} - 8 cuộc hẹn hôm nay</p>
       </div>
 
       <div className={styles.headerActions}>
@@ -46,17 +46,14 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({ doctor }) => {
         </button>
 
         <button className={styles.lockBtn}>
-          <i className="fa-solid fa-lock me-2"></i>
-          + Khóa thời gian
+          <i className="fa-solid fa-lock me-2"></i>+ Khóa thời gian
         </button>
 
         <div className={styles.profileSection}>
           <div className={styles.avatar} />
 
-          <div className={styles.profileInfo}>
-            <p className={styles.doctorTitle}>
-              {doctor?.full_name || ''}
-            </p>
+          <div className={styles.profileInfo} onClick={logout}>
+            <p className={styles.doctorTitle}>{doctor?.full_name || ''}</p>
 
             <p className={styles.doctorDept}>
               {specialty} {clinic ? `- ${clinic}` : ''}

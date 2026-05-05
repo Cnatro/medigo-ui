@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import type { ScheduleDay, TimeSlot } from './doctorService';
-import { doctorService } from './doctorService';
+import type { ScheduleDay, TimeSlot } from './service/doctorService';
+import { doctorService } from './service/doctorService';
 import './styles/timeslot.css';
 import logo from '@/images/logo.png'; // Import logo trực tiếp
 

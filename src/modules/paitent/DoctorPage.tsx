@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/doctor.css';
 import { useDoctor } from './hooks/useDoctor';
-import type { FilterOptions } from './doctorService';
+import type { FilterOptions } from './service/doctorService';
 import FilterSidebar from './FilterSidebar';
 import DoctorCard from './DoctorCard';
 import AIChatAssistant from './AIChatAssistant';
@@ -13,7 +13,6 @@ import logo from '@/images/logo.png';
 import ScreenLoading from '../../shared/utils/loading';
 
 const DoctorPage: React.FC = () => {
-  // ❗ sửa hook: doctors -> data, total
   const { doctors, total, loading, error, fetchDoctors } = useDoctor();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,7 +61,7 @@ const DoctorPage: React.FC = () => {
         page: currentPage,
         size: pageSize,
       });
-    }, 400);
+    }, 1000);
 
     return () => clearTimeout(delay);
   }, [searchTerm, filters, currentPage]);
