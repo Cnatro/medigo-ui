@@ -10,7 +10,7 @@ const PublicRoute = ({ children }: { children: JSX.Element }) => {
     const role = currentUser.role?.toLowerCase();
 
     if (role === "doctor") {
-      return <Navigate to="/doctor-dashboard" replace />;
+      return <Navigate to="/doctor/dashboard" replace />;
     }
 
     if (role === "patient") {

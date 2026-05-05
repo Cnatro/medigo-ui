@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from'./styles/DoctorDashboard.module.css'
-import type { QueueItem } from './doctorDashboardService';
+import type { QueueItem } from './service/doctorDashboardService';
 
 interface QueueListProps {
   queueItems: QueueItem[];

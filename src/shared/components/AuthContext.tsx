@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await registerApi(data);
 
       if (res.status === 201) {
-        alert('Đăng ký thành công!');
+        // alert('Đăng ký thành công!');
         navigate('/login');
       }
     } catch (err: any) {

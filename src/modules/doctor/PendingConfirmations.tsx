@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from'./styles/DoctorDashboard.module.css'
-import type { Appointment } from './doctorDashboardService';
+import type { Appointment } from './service/doctorDashboardService';
 
 interface PendingConfirmationsProps {
   appointments: Appointment[];

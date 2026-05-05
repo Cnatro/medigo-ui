@@ -1,16 +1,16 @@
-import React from 'react';
-import styles from'./styles/DoctorDashboard.module.css'
+import styles from './styles/DoctorDashboard.module.css';
+import { Outlet } from 'react-router-dom';
+import { Sidebar } from './Sidebar';
 
-
-interface DoctorLayoutProps {
-  children: React.ReactNode;
-}
-
-export const DashboardDoctorLayout: React.FC<DoctorLayoutProps> = ({ children }) => {
+export const DashboardDoctorLayout = () => {
   return (
     <div className={styles.layout}>
-      <div className={styles.background} />
-      {children}
+      <div className={styles.background}>
+        <Sidebar />
+        <div className={styles.mainContent}>
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };
