@@ -1,53 +1,81 @@
 import React from 'react';
 import styles from './styles/DoctorDashboard.module.css';
+import { Link, useLocation } from 'react-router-dom';
 
 interface MenuItem {
-  icon: string; // giữ string cho giống logic cũ
+  icon: string;
   label: string;
-  active?: boolean;
   badge?: number;
+  path: string;
 }
 
 const menuItems: MenuItem[] = [
-  { icon: 'fa-solid fa-house', label: 'Tổng quan', active: true },
-  { icon: 'fa-solid fa-calendar-check', label: 'Lịch làm việc', badge: 3 },
-  { icon: 'fa-solid fa-clock', label: 'Cuộc hẹn', badge: 8 },
-  { icon: 'fa-solid fa-user', label: 'Hồ sơ bệnh nhân' },
-  { icon: 'fa-solid fa-chart-bar', label: 'Thống kê' },
-  { icon: 'fa-solid fa-gear', label: 'Cài đặt' },
+  {
+    icon: 'fa-solid fa-house',
+    label: 'Tổng quan',
+    path: '/doctor/dashboard',
+  },
+  {
+    icon: 'fa-solid fa-calendar-check',
+    label: 'Lịch làm việc',
+    path: '/doctor/schedule-work',
+    badge: 3,
+  },
+  {
+    icon: 'fa-solid fa-clock',
+    label: 'Cuộc hẹn',
+    path: '/doctor/schedule-appointment',
+    badge: 8,
+  },
+  {
+    icon: 'fa-solid fa-user',
+    label: 'Hồ sơ bệnh nhân',
+    path: '/doctor/patients',
+  },
+  {
+    icon: 'fa-solid fa-chart-bar',
+    label: 'Thống kê',
+    path: '/doctor/statistics',
+  },
+  {
+    icon: 'fa-solid fa-gear',
+    label: 'Cài đặt',
+    path: '/doctor/settings',
+  },
 ];
 
 export const Sidebar: React.FC = () => {
+  const location = useLocation();
+
   return (
     <aside className={`${styles.sidebar} d-flex flex-column`}>
-      
-      <div className={`${styles.sidebarHeader} p-3`}>
-        <div className={`${styles.logo} fw-bold fs-5`}>MedCare</div>
+      <div className={styles.sidebarHeader}>
+        <div className={styles.logo}>MedCare</div>
       </div>
 
-      <nav className="nav flex-column">
-        {menuItems.map((item, idx) => (
-          <div
-            key={idx}
-            className={`${styles.navItem} d-flex align-items-center justify-content-between px-3 py-2 ${
-              item.active ? styles.active : ''
-            }`}
-          >
-            <div className="d-flex align-items-center gap-2">
-              
-              {/* ICON FONT AWESOME */}
-              <i className={`${item.icon} ${styles.navIcon}`}></i>
+      <nav className="nav flex-column p-3">
+        {menuItems.map((item, idx) => {
+          const isActive = location.pathname === item.path;
 
-              <span className={styles.navLabel}>{item.label}</span>
-            </div>
+          return (
+            <Link key={idx} to={item.path} className="text-decoration-none">
+              <div
+                className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+              >
+                <div className="d-flex align-items-center gap-2">
+                  <i className={`${item.icon} ${styles.navIcon}`}></i>
 
-            {item.badge && (
-              <span className="badge bg-primary">{item.badge}</span>
-            )}
-          </div>
-        ))}
+                  <span className={styles.navLabel}>{item.label}</span>
+                </div>
+
+                {item.badge && (
+                  <span className={styles.navBadge}>{item.badge}</span>
+                )}
+              </div>
+            </Link>
+          );
+        })}
       </nav>
-
     </aside>
   );
 };

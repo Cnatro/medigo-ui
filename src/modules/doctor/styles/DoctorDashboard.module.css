@@ -1,21 +1,22 @@
 .layout {
+  display: flex;
   min-height: 100vh;
-  background-color: #f9fafb;
+  background: #f8fafc;
 }
 
+/* bỏ fixed */
 .background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #f9fafb;
-  z-index: -1;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .mainContent {
+  flex: 1;
   margin-left: 256px;
-  padding: 24px 32px;
+  padding: 24px 32px 80px 32px; /* thêm bottom spacing */
+  overflow-y: visible;
+  min-height: 100vh;
 }
 
 .sidebar {
@@ -61,9 +62,19 @@
   background-color: #f3f4f6;
 }
 
-.navItem.active {
-  background-color: #f0fdf4;
-  color: #16a34a;
+.active {
+  background: linear-gradient(90deg, #eff6ff, #dbeafe);
+  color: #2563eb;
+  font-weight: 600;
+  border-left: 4px solid #2563eb;
+}
+
+.active .navLabel {
+  color: #2563eb;
+}
+
+.active .navIcon {
+  color: #2563eb;
 }
 
 .navIcon {
@@ -176,6 +187,7 @@
 
 .profileInfo {
   text-align: right;
+  cursor: pointer;
 }
 
 .doctorTitle {
@@ -249,7 +261,9 @@
   margin-bottom: 32px;
 }
 
-.appointmentCard, .queueCard, .pendingCard {
+.appointmentCard,
+.queueCard,
+.pendingCard {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -276,7 +290,9 @@
   text-decoration: none;
 }
 
-.appointmentList, .queueList, .pendingList {
+.appointmentList,
+.queueList,
+.pendingList {
   padding: 8px 0;
 }
 
@@ -401,7 +417,8 @@
   gap: 12px;
 }
 
-.confirmBtn, .rejectBtn {
+.confirmBtn,
+.rejectBtn {
   border: none;
   border-radius: 4px;
   padding: 6px 12px;
@@ -420,7 +437,8 @@
   color: #374151;
 }
 
-.confirmBtn:hover, .rejectBtn:hover {
+.confirmBtn:hover,
+.rejectBtn:hover {
   opacity: 0.9;
 }
 

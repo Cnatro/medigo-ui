@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import { aiService, type AIFormattedResponse } from '../aiService';
+import { aiService, type AIFormattedResponse } from '../service/aiService';
 
 export const useAI = () => {
   const [loading, setLoading] = useState(false);

@@ -1,8 +1,6 @@
 import React from 'react';
-import styles from'./styles/DoctorDashboard.module.css'
+import styles from './styles/DoctorDashboard.module.css';
 import { useDoctorDashboard } from './hooks/useDoctorDashboard';
-import { DashboardDoctorLayout } from './DashboardDoctorLayout';
-import { Sidebar } from './Sidebar';
 import { WelcomeHeader } from './WelcomeHeader';
 import { StatCard } from './StatCard';
 import { AppointmentList } from './AppointmentList';
@@ -22,60 +20,57 @@ export const DashboardDoctor: React.FC = () => {
     handleRejectAppointment,
   } = useDoctorDashboard();
 
-  const {currentUser : doctor} = useAuth();
+  const { currentUser: doctor, logout } = useAuth();
 
   if (loading) {
-    return <ScreenLoading message="Đang tải..." show={loading} />
+    return <ScreenLoading message="Đang tải..." show={loading} />;
   }
 
   return (
-    <DashboardDoctorLayout>
-      <Sidebar />
-      <div className={styles.mainContent}>
-        <WelcomeHeader doctor={doctor} />
-        
-        <div className={styles.statsGrid}>
-          <StatCard
-            value={stats.todayAppointments}
-            label="Cuộc hẹn hôm nay"
-            subtext="3 trực tiếp · 5 trực tuyến"
-            color="blue"
-          />
-          <StatCard
-            value={stats.pendingConfirmations}
-            label="Chờ xác nhận"
-            subtext="Cần phản hồi"
-            color="green"
-          />
-          <StatCard
-            value={stats.monthlyAppointments}
-            label="Lịch hẹn tháng này"
-            subtext="+12% so với tháng trước"
-            color="purple"
-          />
-          <StatCard
-            value={stats.averageRating}
-            label="Đánh giá trung bình"
-            subtext="314 đánh giá · 96% hài lòng"
-            color="yellow"
-          />
-        </div>
+    <div>
+      <WelcomeHeader doctor={doctor} logout={logout} />
 
-        <div className={styles.twoColumnLayout}>
-          <AppointmentList 
-            appointments={weekAppointments} 
-            title="Lịch tuần này"
-            viewAllLink="#"
-          />
-          <QueueList queueItems={queueItems} />
-        </div>
-
-        <PendingConfirmations 
-          appointments={pendingAppointments}
-          onConfirm={handleConfirmAppointment}
-          onReject={handleRejectAppointment}
+      <div className={styles.statsGrid}>
+        <StatCard
+          value={stats.todayAppointments}
+          label="Cuộc hẹn hôm nay"
+          subtext="3 trực tiếp · 5 trực tuyến"
+          color="blue"
+        />
+        <StatCard
+          value={stats.pendingConfirmations}
+          label="Chờ xác nhận"
+          subtext="Cần phản hồi"
+          color="green"
+        />
+        <StatCard
+          value={stats.monthlyAppointments}
+          label="Lịch hẹn tháng này"
+          subtext="+12% so với tháng trước"
+          color="purple"
+        />
+        <StatCard
+          value={stats.averageRating}
+          label="Đánh giá trung bình"
+          subtext="314 đánh giá · 96% hài lòng"
+          color="yellow"
         />
       </div>
-    </DashboardDoctorLayout>
+
+      <div className={styles.twoColumnLayout}>
+        <AppointmentList
+          appointments={weekAppointments}
+          title="Lịch tuần này"
+          viewAllLink="#"
+        />
+        <QueueList queueItems={queueItems} />
+      </div>
+
+      <PendingConfirmations
+        appointments={pendingAppointments}
+        onConfirm={handleConfirmAppointment}
+        onReject={handleRejectAppointment}
+      />
+    </div>
   );
 };

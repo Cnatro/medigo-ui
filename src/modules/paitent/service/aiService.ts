@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axiosClient from '../../api/axiosClient';
+import axiosClient from '../../../api/axiosClient';
 
 export interface AIMessageRequest {
   message: string;

@@ -6,7 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/doctor-detail.css';
 import { useDoctor } from './hooks/useDoctor';
-import type { Doctor } from './doctorService';
+import type { Doctor } from './service/doctorService';
 import TimeSlotPicker from './TimeSlotPicker';
 import ScreenLoading from '../../shared/utils/loading';
 

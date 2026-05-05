@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import type { ClinicItem, FilterOptions, SpecialtyItem } from './doctorService';
-import { doctorService } from './doctorService';
+import type { ClinicItem, FilterOptions, SpecialtyItem } from './service/doctorService';
+import { doctorService } from './service/doctorService';
 import './styles/filter-sidebar.css';
 
 interface FilterSidebarProps {

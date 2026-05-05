@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import doctorDashboardService, { type Appointment, type DashboardStats, type QueueItem } from '../doctorDashboardService';
+import doctorDashboardService, { type Appointment, type DashboardStats, type QueueItem } from '../service/doctorDashboardService';
 
 export const useDoctorDashboard = () => {
   const [stats, setStats] = useState<DashboardStats>({

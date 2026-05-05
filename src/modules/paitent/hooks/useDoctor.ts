@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import { doctorService, type Doctor } from '../doctorService';
 import { handleApiError } from '../../../shared/utils/error';
 import { mapDoctor } from '../../../api/apiMapper';
+import { doctorService, type Doctor } from '../service/doctorService';
 
 export const useDoctor = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);

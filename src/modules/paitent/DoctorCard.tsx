@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Doctor } from './doctorService';
 import { useNavigate } from 'react-router-dom';
 import './styles/doctor-card.css';
+import type { Doctor } from './service/doctorService';
 
 interface DoctorCardProps {
   doctor: Doctor;
