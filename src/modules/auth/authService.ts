@@ -35,3 +35,15 @@ export const loginApi = (data: LoginPayload) => {
 export const registerApi = (data: RegisterPayload) => {
   return axiosClient.post('/auth/register', data);
 };
+
+export const currentUserApi = () => {
+  return axiosClient.get('/users/me');
+};
+
+export const updateCurrentUserApi = (formData: FormData) => {
+  return axiosClient.patch('/users/me', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};

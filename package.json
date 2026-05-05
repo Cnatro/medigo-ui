@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "axios": "^1.15.0",
     "bootstrap": "^5.3.8",
+    "date-fns": "^4.1.0",
     "react": "^19.2.4",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
