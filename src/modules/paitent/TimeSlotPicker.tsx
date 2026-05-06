@@ -10,6 +10,8 @@ interface TimeSlotPickerProps {
   doctorSpecialtyId: string;
   weekOffset: number;
   getWeek: (offset: number) => { monday: Date; sunday: Date };
+  onSelectSlot?: (slot: TimeSlot | null) => void;
+  onSelectDate?: (date: string) => void;
 }
 
 // Component loading inline đơn giản
@@ -38,6 +40,8 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
   doctorSpecialtyId,
   weekOffset,
   getWeek,
+  onSelectSlot,
+  onSelectDate,
 }) => {
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
   const [scheduleDays, setScheduleDays] = useState<ScheduleDay[]>([]);
@@ -47,6 +51,7 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
     const fetchSlots = async () => {
       if (!doctorSpecialtyId) return;
 
+      setSelectedSlot(null);
       setLoading(true);
       try {
         const { monday, sunday } = getWeek(weekOffset);
@@ -84,12 +89,17 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
     };
 
     fetchSlots();
-  }, [doctorSpecialtyId, weekOffset, getWeek]);
+  }, [doctorSpecialtyId, weekOffset]);
 
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.available && !slot.isBooked) {
       setSelectedSlot(slot);
+      onSelectSlot?.(slot);
     }
+  };
+
+  const handleDateClick = (date: string) => {
+    onSelectDate?.(date);
   };
 
   // Loading state - hiển thị inline loading giữa khung
@@ -122,6 +132,7 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
                 <div className="time-slots">
                   {day.slots.map((slot) => (
                     <button
+                      type="button"
                       key={slot.id}
                       className={`time-slot-btn ${
                         slot.isBooked
@@ -130,7 +141,10 @@ const TimeSlotPicker: React.FC<TimeSlotPickerProps> = ({
                             ? 'selected'
                             : 'available'
                       }`}
-                      onClick={() => handleSlotClick(slot)}
+                      onClick={() => {
+                        handleSlotClick(slot);
+                        handleDateClick(day.date);
+                      }}
                       disabled={slot.isBooked || !slot.available}
                     >
                       <i className="far fa-clock"></i>
