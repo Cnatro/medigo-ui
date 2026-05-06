@@ -1,0 +1,355 @@
+/* confirmAppointment.css */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    'Source Sans Pro',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: #f9fafb;
+}
+
+.confirm-appointment-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.confirm-appointment-card {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh; /* tránh dài quá màn hình */
+  overflow-y: auto; /* scroll bên trong popup */
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666666;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #ef4444;
+}
+
+/* Doctor Info */
+.doctor-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: #eff6ff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.doctor-avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #d1d5db;
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #2563eb;
+  border-radius: 9999px;
+  opacity: 0.8;
+}
+
+.doctor-details {
+  flex: 1;
+}
+
+.doctor-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 0.25rem 0;
+}
+
+.doctor-specialty {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* AI Analysis */
+.ai-analysis {
+  padding: 1rem 1.5rem;
+  background-color: #f0fdf4;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ai-icon {
+  font-size: 1.25rem;
+  color: #16a34a;
+}
+
+.ai-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.ai-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ai-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ai-label {
+  font-size: 0.875rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.ai-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+.badge-selected {
+  font-size: 0.75rem;
+  color: #16a34a;
+  font-weight: 500;
+  background-color: #dcfce7;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+/* Appointment Information */
+.appointment-info {
+  padding: 1rem 1.5rem;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.info-icon {
+  font-size: 1.125rem;
+  color: #2563eb;
+}
+
+.info-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.info-card {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.info-card.full-width {
+  grid-column: span 2;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #000000;
+  word-break: break-word;
+}
+
+.info-value.symptoms {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background: none;
+}
+
+.btn-outline {
+  border: 1px solid #d1d5db;
+  background-color: transparent;
+  color: #374151;
+}
+
+.btn-outline:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn i {
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .confirm-appointment-container {
+    padding: 1rem;
+  }
+
+  .card-header,
+  .stepper,
+  .doctor-info,
+  .ai-analysis,
+  .appointment-info,
+  .form-actions {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .stepper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .step-item {
+    width: 100%;
+  }
+
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .step-label {
+    font-size: 0.813rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .info-card.full-width {
+    grid-column: span 1;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .ai-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
