@@ -9,6 +9,7 @@ import { useDoctor } from './hooks/useDoctor';
 import type { Doctor } from './service/doctorService';
 import TimeSlotPicker from './TimeSlotPicker';
 import ScreenLoading from '../../shared/utils/loading';
+import InfoAppointment from './InfoAppointment';
 
 const DoctorDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,6 +20,9 @@ const DoctorDetail: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'schedule'>('profile');
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('');
   const [weekOffset, setWeekOffset] = useState(0);
+  const [showAppointmentPopup, setShowAppointmentPopup] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<any>(null);
+  const [selectedDate, setSelectedDate] = useState<any | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -43,9 +47,22 @@ const DoctorDetail: React.FC = () => {
   };
 
   const handleBooking = () => {
-    // Navigate to booking page
-    navigate(`/booking/${id}`);
+    setShowAppointmentPopup(true);
   };
+
+  const handleSelectSlot = (slot: any) => {
+    setSelectedSlot(slot);
+  };
+
+  const handleSlectDate = (date: string) => {
+    setSelectedDate(date);
+  }
+
+  const selectedSpecialtyData = doctor?.specialties?.find(
+    (s) => s.doctorSpecialtyId === selectedSpecialty,
+  );
+
+  const selectedPrice = selectedSpecialtyData?.price;
 
   const getWeek = (offset = 0) => {
     const now = new Date();
@@ -209,13 +226,21 @@ const DoctorDetail: React.FC = () => {
                 )}
 
                 {/* Book Button */}
-                <button
-                  className="btn-book-appointment"
-                  onClick={handleBooking}
-                >
-                  <i className="fas fa-calendar-check me-2"></i>
-                  Đặt lịch khám ngay
-                </button>
+                {selectedSlot ? (
+                  <button
+                    className="btn-book-appointment"
+                    onClick={handleBooking}
+                  >
+                    <i className="fas fa-calendar-check me-2"></i>
+                    Đặt lịch khám ngay
+                  </button>
+                ) : (
+                  <div className="text-center mt-3">
+                    <small className="text-muted">
+                      Vui lòng chọn lịch khám trước
+                    </small>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -385,6 +410,8 @@ const DoctorDetail: React.FC = () => {
                       doctorSpecialtyId={selectedSpecialty}
                       weekOffset={weekOffset}
                       getWeek={getWeek}
+                      onSelectSlot={handleSelectSlot}
+                      onSelectDate={handleSlectDate}
                     />
                   </div>
                 )}
@@ -393,6 +420,16 @@ const DoctorDetail: React.FC = () => {
           </div>
         </div>
       </div>
+      {showAppointmentPopup && (
+        <InfoAppointment
+          doctor={doctor}
+          selectedSlot={selectedSlot}
+          onClose={() => setShowAppointmentPopup(false)}
+          doctorSpecialtyId={selectedSpecialty}
+          amount={selectedPrice}
+          selectedDate={selectedDate}
+        />
+      )}
     </div>
   );
 };

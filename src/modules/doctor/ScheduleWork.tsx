@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom';
 import './styles/ScheduleWork.css';
 import useSchedules from './hooks/useSchedules';
 import ScreenLoading from '../../shared/utils/loading';
-import { type WeekItem } from './service/scheduleAppointmentService';
 import {
   eachWeekOfInterval,
   endOfWeek,
@@ -13,6 +12,7 @@ import {
   isWithinInterval,
   startOfYear,
 } from 'date-fns';
+import type { WeekItem } from './service/doctorScheduleService';
 
 export default function ScheduleWork() {
   const [selectedSchedule, setSelectedSchedule] = useState<any>(null);

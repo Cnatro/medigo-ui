@@ -36,6 +36,13 @@ export interface Specialty {
   description: string;
 }
 
+export interface WeekItem {
+  value: number;
+  start: Date;
+  end: Date;
+  label: string;
+}
+
 export interface ScheduleStatistics {
   extraShiftCount: number;
   leaveCount: number;
