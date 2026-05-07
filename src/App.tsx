@@ -13,6 +13,14 @@ import DoctorDetail from './modules/paitent/DoctorDetail';
 import { DashboardDoctorLayout } from './modules/doctor/DashboardDoctorLayout';
 import ScheduleAppointment from './modules/doctor/ScheduleAppointment';
 import ScheduleWork from './modules/doctor/ScheduleWork';
+import AdminLayout from './modules/admin/AdminLayout';
+import DashboardHome from './modules/admin/DashboardHome';
+import UsersManagement from './modules/admin/UsersManagement';
+import ClinicsManagement from './modules/admin/ClinicesManagement';
+import ScheuleManagement from './modules/admin/ScheduleManagement';
+import PaymentsManagement from './modules/admin/PaymentsManagement';
+import ScheduleRequestsManagement from './modules/admin/ScheduleRequestsManagement';
+import SettingsManagement from './modules/admin/SettingsManagement';
 
 function App() {
   return (
@@ -99,14 +107,33 @@ function App() {
             />
           </Route>
 
-          {/* <Route
-            path="/doctor/schedule-work"
+          <Route
+            path="/admin"
             element={
               <ProtectedRoute>
-                <ScheduleWork />
+                <AdminLayout />
               </ProtectedRoute>
             }
-          /> */}
+          >
+            <Route index element={<DashboardHome />} />
+
+            <Route path="dashboard" element={<DashboardHome />} />
+
+            <Route path="users" element={<UsersManagement />} />
+
+            <Route path="hospitals" element={<ClinicsManagement />} />
+
+            <Route path="schedule" element={<ScheuleManagement />} />
+
+            <Route path="payments" element={<PaymentsManagement />} />
+
+            <Route
+              path="schedule-requests"
+              element={<ScheduleRequestsManagement />}
+            />
+
+            <Route path="settings" element={<SettingsManagement />} />
+          </Route>
 
           <Route
             path="/login"

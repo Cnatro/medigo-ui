@@ -88,7 +88,7 @@ const DoctorPage: React.FC = () => {
             <div className="container d-flex align-items-center justify-content-between">
               <div className="d-flex align-items-center gap-2">
                 <img src={logo} className="header-logo" alt="logo" />
-                <h5 className="mb-0 fw-bold">MediCare</h5>
+                <h5 className="mb-0 fw-bold">MediGo</h5>
               </div>
 
               <div className="d-flex align-items-center gap-3">

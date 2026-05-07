@@ -10,7 +10,11 @@ const RoleRedirect = () => {
     return <Navigate to="/login" />;
   }
 
-  const role = currentUser.role?.toLowerCase();
+  const role = currentUser.role;
+
+  if (role === 'ADMIN') {
+    return <Navigate to="/admin/dashboard" />;
+  }
 
   if (role === 'DOCTOR') {
     return <Navigate to="/doctor/dashboard" />;
