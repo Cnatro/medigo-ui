@@ -15,6 +15,7 @@ export type RegisterPayload =
         bio: string;
         experience_years: number;
         clinic_id: string;
+        specialty_ids: string[];
       };
     }
   | {
