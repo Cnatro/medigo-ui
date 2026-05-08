@@ -1,20 +1,26 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+
   server: {
-    host: true, 
+    host: true,
     port: 5173,
   },
+
   preview: {
     allowedHosts: ['medigo-ui.onrender.com']
-  }, 
+  },
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    },
+    }
+  },
+
+  test: {
+    environment: 'jsdom',
   },
 });
