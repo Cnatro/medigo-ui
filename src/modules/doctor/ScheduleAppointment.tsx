@@ -1,5 +1,6 @@
 import './styles/ScheduleAppointment..css';
 import useAppointment from './hooks/useAppointment';
+import ScreenLoading from '../../shared/utils/loading';
 
 const ScheduleAppointment = () => {
   const today = new Date();
@@ -18,7 +19,7 @@ const ScheduleAppointment = () => {
     availableCount,
     bookedCount,
     closedCount,
-
+    completedCount,
 
     weeksInYear,
     timeRanges,
@@ -28,8 +29,13 @@ const ScheduleAppointment = () => {
 
     specialties,
     defaultWeekIndex,
+    loading,
   } = useAppointment();
 
+  if (loading) {
+    return <ScreenLoading message="Đang tải..." />;
+  }
+  
   return (
     <div className="schedule-page">
       {/* Header */}
@@ -64,6 +70,17 @@ const ScheduleAppointment = () => {
           <div className="stat-content">
             <h3>{bookedCount}</h3>
             <p>Đã đặt lịch</p>
+          </div>
+        </div>
+
+        <div className="stat-card completed">
+          <div className="stat-icon">
+            <i className="fa-solid fa-check-double"></i>
+          </div>
+
+          <div className="stat-content">
+            <h3>{completedCount}</h3>
+            <p>Đã hoàn tất</p>
           </div>
         </div>
 
@@ -160,11 +177,10 @@ const ScheduleAppointment = () => {
                       className={getSlotClass(slot?.status)}
                       onClick={() => slot && setSelectedSlot(slot)}
                     >
-                      {slot?.status === 'booked' && '👤'}
-
-                      {slot?.status === 'available' && '✔'}
-
-                      {slot?.status === 'closed' && '🔒'}
+                      {slot?.status === 'booked' && 'Đang đặt'}
+                      {slot?.status === 'available' && 'Trống'}
+                      {slot?.status === 'closed' && 'Đã đóng'}
+                      {slot?.status === 'completed' && 'Hoàn tất'}
                     </td>
                   );
                 })}

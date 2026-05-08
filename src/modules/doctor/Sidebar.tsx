@@ -32,11 +32,11 @@ const menuItems: MenuItem[] = [
     label: 'Hồ sơ bệnh nhân',
     path: '/doctor/patients',
   },
-  {
-    icon: 'fa-solid fa-chart-bar',
-    label: 'Thống kê',
-    path: '/doctor/statistics',
-  },
+  // {
+  //   icon: 'fa-solid fa-chart-bar',
+  //   label: 'Thống kê',
+  //   path: '/doctor/statistics',
+  // },
   {
     icon: 'fa-solid fa-gear',
     label: 'Cài đặt',
@@ -50,7 +50,7 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className={`${styles.sidebar} d-flex flex-column`}>
       <div className={styles.sidebarHeader}>
-        <div className={styles.logo}>MedCare</div>
+        <div className={styles.logo}>MediGo</div>
       </div>
 
       <nav className="nav flex-column p-3">

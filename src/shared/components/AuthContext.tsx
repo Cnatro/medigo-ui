@@ -13,11 +13,13 @@ import {
 import { handleApiError } from '../utils/error';
 
 interface PatientProfile {
+  id: string;
   date_of_birth: string;
   gender: string;
 }
 
 interface DoctorProfile {
+  id: string;
   specialty: string;
   experience: number;
   clinic?: string;
