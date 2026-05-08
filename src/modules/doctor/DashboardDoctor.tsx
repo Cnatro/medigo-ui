@@ -61,7 +61,7 @@ export const DashboardDoctor: React.FC = () => {
         <AppointmentList
           appointments={weekAppointments}
           title="Lịch tuần này"
-          viewAllLink="#"
+          viewAllLink="/doctor/schedule-work"
         />
         <QueueList queueItems={queueItems} />
       </div>

@@ -13,12 +13,14 @@ import {
   startOfYear,
 } from 'date-fns';
 import type { WeekItem } from './service/doctorScheduleService';
+import { formatHourMinute } from '../../shared/utils/styles/utils';
 
 export default function ScheduleWork() {
   const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showExtraShiftModal, setShowExtraShiftModal] = useState(false);
   const [showWeekendModal, setShowWeekendModal] = useState(false);
+  const [viewMode, setViewMode] = useState<'table' | 'calendar'>('table');
 
   const [leaveReason, setLeaveReason] = useState('');
 
@@ -304,6 +306,26 @@ export default function ScheduleWork() {
     return day === 0 || day === 6;
   };
 
+  const DAYS = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'];
+
+  const groupedSchedules = useMemo(() => {
+    const grouped: Record<number, any[]> = {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+    };
+
+    schedules.forEach((item: any) => {
+      grouped[item.dayOfWeek]?.push(item);
+    });
+
+    return grouped;
+  }, [schedules]);
+
   if (loading) {
     return <ScreenLoading message="Đang tải..." />;
   }
@@ -352,6 +374,22 @@ export default function ScheduleWork() {
 
       {/* Actions */}
       <div className="schedule-work-toolbar">
+        <div className="schedule-view-toggle">
+          <button
+            className={viewMode === 'table' ? 'active' : ''}
+            onClick={() => setViewMode('table')}
+          >
+            Dạng bảng
+          </button>
+
+          <button
+            className={viewMode === 'calendar' ? 'active' : ''}
+            onClick={() => setViewMode('calendar')}
+          >
+            Dạng lịch
+          </button>
+        </div>
+
         <div className="schedule-work-action-wrapper schedule-work-action-wrapper--left">
           <button onClick={() => setShowExtraShiftModal(true)}>
             Đăng ký ca trực
@@ -403,62 +441,56 @@ export default function ScheduleWork() {
           </select>
         </div>
       </div>
-
-      {/* Table */}
-      <div className="schedule-work-table-wrapper">
-        <table className="schedule-work-table">
-          <thead>
-            <tr>
-              <th>Ngày</th>
-              <th>Chuyên khoa</th>
-              <th>Loại ca</th>
-              <th>Thời gian</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {schedules.length === 0 ? (
+      {viewMode === 'table' ? (
+        <div className="schedule-work-table-wrapper">
+          <table className="schedule-work-table">
+            <thead>
               <tr>
-                <td colSpan={6}>
-                  <div className="empty-slots">
-                    <i className="fas fa-calendar-times"></i>
-                    <p>Không có lịch làm việc trong tuần này</p>
-                    <span>Vui lòng chọn tuần khác</span>
-                  </div>
-                </td>
+                <th>Ngày</th>
+                <th>Chuyên khoa</th>
+                <th>Loại ca</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
               </tr>
-            ) : (
-              schedules.map((schedule) => (
-                <tr
-                  key={schedule.id}
-                  onClick={() => {
-                    setSelectedSchedule(schedule);
-                    fetchTimeSlots(schedule.id, schedule.doctorSpecialtyId);
-                  }}
-                >
-                  <td>
-                    {schedule.dayLabel} ({schedule.date})
+            </thead>
+
+            <tbody>
+              {schedules.length === 0 ? (
+                <tr>
+                  <td colSpan={6}>
+                    <div className="empty-slots">Không có lịch làm việc</div>
                   </td>
+                </tr>
+              ) : (
+                schedules.map((schedule) => (
+                  <tr
+                    key={schedule.id}
+                    onClick={() => {
+                      setSelectedSchedule(schedule);
+                      fetchTimeSlots(schedule.id, schedule.doctorSpecialtyId);
+                    }}
+                  >
+                    <td>
+                      {schedule.dayLabel} ({schedule.date})
+                    </td>
 
-                  <td>{schedule.specialty?.name}</td>
+                    <td>{schedule.specialty?.name}</td>
+                    <td>{getTypeLabel(schedule.type)}</td>
 
-                  <td>{getTypeLabel(schedule.type)}</td>
+                    <td>
+                      {formatHourMinute(schedule.startTime)} - {formatHourMinute(schedule.endTime)}
+                    </td>
 
-                  <td>
-                    {schedule.startTime} - {schedule.endTime}
-                  </td>
+                    <td>
+                      <span className={getStatusClass(schedule.status)}>
+                        {getStatusLabel(schedule.status)}
+                      </span>
+                    </td>
 
-                  <td>
-                    <span className={getStatusClass(schedule.status)}>
-                      {getStatusLabel(schedule.status)}
-                    </span>
-                  </td>
-
-                  <td>
-                    <div className="schedule-work-action-wrapper">
+                    <td>
                       <button
+                      className="btn btn-outline-primary"
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedSchedule(schedule);
@@ -467,14 +499,66 @@ export default function ScheduleWork() {
                       >
                         Xin nghỉ
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="schedule-calendar-wrapper">
+          {DAYS.map((day, index) => {
+            const daySchedules = groupedSchedules[index] || [];
+
+            return (
+              <div key={index} className="calendar-day-card">
+                <div className="calendar-day-header">{day}</div>
+
+                <div className="calendar-day-body">
+                  {daySchedules.length === 0 ? (
+                    <div className="calendar-empty">Không có ca</div>
+                  ) : (
+                    daySchedules.map((schedule) => (
+                      <div
+                        key={schedule.id}
+                        className={`calendar-slot ${schedule.type.toLowerCase()}`}
+                        onClick={() => {
+                          setSelectedSchedule(schedule);
+                          fetchTimeSlots(
+                            schedule.id,
+                            schedule.doctorSpecialtyId,
+                          );
+                        }}
+                      >
+                        <div className="calendar-slot-time small">
+                          {schedule.date}
+                        </div>
+
+                        <div className="calendar-slot-time">
+                          {formatHourMinute(schedule.startTime)} - {formatHourMinute(schedule.endTime)}
+                        </div>
+
+                        <div className="calendar-slot-specialty">
+                          {schedule.specialty?.name}
+                        </div>
+
+                        <div className="calendar-slot-type">
+                          {getTypeLabel(schedule.type)}
+                        </div>
+
+                        <span className={getStatusClass(schedule.status)}>
+                          {getStatusLabel(schedule.status)}
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Detail Modal */}
       {selectedSchedule &&
@@ -485,7 +569,7 @@ export default function ScheduleWork() {
             <ul>
               {timeSlots.map((slot) => (
                 <li key={slot.id} className="text-center">
-                  {slot.startTime} - {slot.endTime}
+                  {formatHourMinute(slot.startTime)} - {(slot.endTime)}
                 </li>
               ))}
             </ul>
