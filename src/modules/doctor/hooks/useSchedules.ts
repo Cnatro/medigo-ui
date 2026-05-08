@@ -105,6 +105,13 @@ const useSchedules = (params: { start_date?: string; end_date?: string }) => {
       }
       await fetchStatistics();
     } catch (err: any) {
+      if (err.response?.status === 409) {
+        alert(
+          'Đã đăng ký ca làm thêm vào ngày này. Vui lòng chờ quản trị viên duyệt hoặc chọn ngày khác.',
+        );
+        return;
+      }
+
       setError(
         err?.response?.data?.message ||
           'Failed to update resgiter extra shift schedule',
@@ -128,6 +135,12 @@ const useSchedules = (params: { start_date?: string; end_date?: string }) => {
       }
       await fetchStatistics();
     } catch (err: any) {
+      if (err.response?.status === 409) {
+        alert(
+          'Đã đăng ký ca làm thêm vào ngày này. Vui lòng chờ quản trị viên duyệt hoặc chọn ngày khác.',
+        );
+        return;
+      }
       setError(
         err?.response?.data?.message ||
           'Failed to update resgiter extra shift schedule',

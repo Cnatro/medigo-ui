@@ -393,3 +393,105 @@
   color: #dc2626;
   border: 1px solid #fca5a5;
 }
+
+/* toggle view */
+.schedule-view-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.schedule-view-toggle button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.schedule-view-toggle button.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* calendar */
+.schedule-calendar-wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.calendar-day-card {
+  background: white;
+  border-radius: 16px;
+  min-height: 300px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.calendar-day-header {
+  background: #eff6ff;
+  padding: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: #1e40af;
+}
+
+.calendar-day-body {
+  padding: 12px;
+}
+
+.calendar-empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px 0;
+}
+
+.calendar-slot {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border-left: 4px solid #2563eb;
+}
+
+.calendar-slot.extra_shift {
+  border-left-color: orange;
+}
+
+.calendar-slot.weekend_shift {
+  border-left-color: purple;
+}
+
+.calendar-slot-time {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.calendar-slot-specialty {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.calendar-slot-type {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+/* responsive */
+@media (max-width: 1200px) {
+  .schedule-calendar-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-calendar-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
