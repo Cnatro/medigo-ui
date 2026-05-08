@@ -168,10 +168,16 @@ const useAppointment = () => {
     switch (status) {
       case 'available':
         return 'slot available';
+
       case 'booked':
         return 'slot booked';
+
+      case 'completed':
+        return 'slot completed';
+
       case 'closed':
         return 'slot closed';
+
       default:
         return 'slot empty';
     }
@@ -183,6 +189,7 @@ const useAppointment = () => {
   ).length;
   const bookedCount = filteredSlots.filter((s) => s.status === 'booked').length;
   const closedCount = filteredSlots.filter((s) => s.status === 'closed').length;
+  const completedCount = filteredSlots.filter( (s) => s.status === 'completed' ).length;
 
   // ================= EFFECT =================
   useEffect(() => {
@@ -233,6 +240,7 @@ const useAppointment = () => {
     availableCount,
     bookedCount,
     closedCount,
+    completedCount,
 
     loading,
     error,

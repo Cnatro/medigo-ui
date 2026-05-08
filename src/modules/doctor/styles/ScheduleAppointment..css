@@ -34,9 +34,11 @@
   font-weight: 500;
 }
 
+/* ================= STATS ================= */
+
 .stats-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 24px;
 }
@@ -58,7 +60,6 @@
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.1);
 }
 
-/* icon */
 .stat-icon {
   width: 55px;
   height: 55px;
@@ -69,7 +70,6 @@
   font-size: 22px;
 }
 
-/* content */
 .stat-content h3 {
   font-size: 28px;
   font-weight: 700;
@@ -84,7 +84,7 @@
   font-weight: 500;
 }
 
-/* available */
+/* AVAILABLE */
 .stat-card.available {
   border-left: 5px solid #22c55e;
 }
@@ -94,7 +94,7 @@
   color: #16a34a;
 }
 
-/* booked */
+/* BOOKED */
 .stat-card.booked {
   border-left: 5px solid #3b82f6;
 }
@@ -104,7 +104,17 @@
   color: #2563eb;
 }
 
-/* closed */
+/* COMPLETED */
+.stat-card.completed {
+  border-left: 5px solid #14b8a6;
+}
+
+.stat-card.completed .stat-icon {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+/* CLOSED */
 .stat-card.closed {
   border-left: 5px solid #ef4444;
 }
@@ -114,19 +124,36 @@
   color: #dc2626;
 }
 
-.week-filter {
-  margin-bottom: 20px;
+/* ================= FILTER ================= */
+
+.filter-wrapper {
   display: flex;
+  gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.week-filter .form-select {
-  width: auto;
+.filter-wrapper select {
   min-width: 220px;
-  font-size: 14px;
+  height: 42px;
+  border: 1px solid #dbe2ea;
   border-radius: 10px;
-  padding: 8px 12px;
+  padding: 0 12px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
 }
+
+.filter-wrapper select:focus {
+  border-color: #2563eb;
+}
+
+/* ================= CALENDAR ================= */
 
 .calendar-wrapper {
   background: white;
@@ -175,46 +202,75 @@
   color: #475569;
 }
 
+/* ================= SLOT BASE ================= */
+
 .slot {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-.slot i {
-  font-size: 14px;
-}
-
+/* AVAILABLE - xanh lá đậm, chữ trắng, viền đậm */
 .slot.available {
-  background: #dcfce7;
-  color: #16a34a;
+  background: #059669; /* xanh lục đậm */
+  color: #ffffff;
+  border: 1px solid #047857;
 }
 
 .slot.available:hover {
-  background: #bbf7d0;
+  background: #047857; /* đậm hơn khi hover */
+  transform: scale(1.02);
 }
 
+/* BOOKED - xanh dương đậm, chữ trắng */
 .slot.booked {
-  background: #fee2e2;
-  color: #dc2626;
+  background: #2563eb; /* xanh dương đậm */
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
 }
 
 .slot.booked:hover {
-  background: #fecaca;
+  background: #1d4ed8;
+  transform: scale(1.02);
 }
 
+/* COMPLETED - xanh ngọc đậm, chữ trắng */
+.slot.completed {
+  background: #01f039; /* xanh ngọc đậm */
+  color: #ffffff;
+  border: 1px solid #0f766e;
+}
+
+.slot.completed:hover {
+  background: #0f766e;
+  transform: scale(1.02);
+}
+
+/* CLOSED - xám tro đậm, chữ trắng */
 .slot.closed {
-  background: #e5e7eb;
-  color: #6b7280;
+  background: #6b7280; /* xám trung bình-đậm */
+  color: #ffffff;
+  border: 1px solid #4b5563;
 }
 
 .slot.closed:hover {
-  background: #d1d5db;
+  background: #4b5563;
+  transform: scale(1.02);
 }
 
+/* EMPTY - nền trắng, viền xám nhạt, chữ xám */
 .slot.empty {
-  background: white;
+  background: #ffffff;
+  color: #9ca3af;
+  border: 1px solid #e5e7eb;
 }
 
+.slot.empty:hover {
+  background: #f9fafb;
+}
+
+/* ================= MODAL ================= */
 
 .slot-modal-overlay {
   position: fixed;
@@ -254,38 +310,7 @@
   color: #0f172a;
 }
 
-.slot-modal .btn {
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
-}
-
-.filter-wrapper {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-  background: white;
-  padding: 16px;
-  border-radius: 14px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.filter-wrapper select {
-  min-width: 220px;
-  height: 42px;
-  border: 1px solid #dbe2ea;
-  border-radius: 10px;
-  padding: 0 12px;
-  outline: none;
-  font-size: 14px;
-  background: #fff;
-}
-
-.filter-wrapper select:focus {
-  border-color: #2563eb;
-}
+/* ================= BUTTONS ================= */
 
 .create-btn {
   background: #2563eb;
@@ -306,6 +331,8 @@
   margin-top: 10px;
 }
 
+/* ================= ANIMATION ================= */
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -317,6 +344,7 @@
   }
 }
 
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 992px) {
   .schedule-header {
@@ -324,7 +352,7 @@
     align-items: flex-start;
   }
 
-  .week-filter .form-select {
+  .filter-wrapper select {
     width: 100%;
   }
 }
@@ -350,9 +378,5 @@
 
   .time-column {
     font-size: 12px;
-  }
-
-  .stat-box h4 {
-    font-size: 20px;
   }
 }

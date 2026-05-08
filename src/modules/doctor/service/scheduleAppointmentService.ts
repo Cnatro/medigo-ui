@@ -29,7 +29,7 @@ export interface TimeSlot {
   date: string;
   start: string;
   end: string;
-  status: 'available' | 'booked' | 'closed';
+  status: 'available' | 'booked' | 'closed' | 'completed';
   specialtyId: string;
   specialtyName: string;
   patient: PatientAppointment;

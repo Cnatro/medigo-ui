@@ -1,0 +1,129 @@
+.patient-list-page {
+  background: #f5f7fb;
+  min-height: 100vh;
+  padding-bottom: 30px;
+}
+
+/* Card chính */
+.patient-list-page .card {
+  border: none !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+}
+
+/* Header */
+.patient-list-page .card-header {
+  background: white !important;
+  border-bottom: 1px solid #eef2f7;
+  padding: 20px 24px;
+}
+
+.patient-list-page .card-header h5 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Table */
+.patient-list-page .table {
+  margin: 0;
+}
+
+.patient-list-page .table thead {
+  background: #f8fafc;
+}
+
+.patient-list-page .table thead th {
+  border: none;
+  padding: 18px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.patient-list-page .table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.patient-list-page .table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.patient-list-page .table tbody td {
+  padding: 20px;
+  vertical-align: middle;
+  border-top: 1px solid #eef2f7;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* Badge giới tính */
+.gender-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.gender-male {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.gender-female {
+  background: #fce7f3;
+  color: #db2777;
+}
+
+/* Patient ID */
+.patient-id {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Button */
+.patient-list-page .btn-primary {
+  background: #2563eb;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.patient-list-page .btn-primary:hover {
+  background: #1d4ed8;
+}
+
+/* Empty state nếu chưa có data */
+.empty-state {
+  text-align: center;
+  padding: 50px;
+  color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-list-page {
+    padding: 15px;
+  }
+
+  .patient-list-page .card-header {
+    padding: 16px;
+  }
+
+  .patient-list-page .table thead th,
+  .patient-list-page .table tbody td {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .patient-list-page .btn-primary {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
