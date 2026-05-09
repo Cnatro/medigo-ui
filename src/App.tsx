@@ -23,6 +23,8 @@ import ScheduleRequestsManagement from './modules/admin/ScheduleRequestsManageme
 import SettingsManagement from './modules/admin/SettingsManagement';
 import PatientListPage from './modules/doctor/PatientListPage';
 import PatientDetailPage from './modules/doctor/PatientDetailPage';
+import PatientAppointmentsPage from './modules/paitent/AppointmentsPage';
+import PatientProfilePage from './modules/paitent/ProfilePage';
 
 function App() {
   return (
@@ -73,6 +75,22 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/profile/patient"
+            element={
+              <ProtectedRoute>
+                <PatientProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute>
+                <PatientAppointmentsPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/doctor"
@@ -108,7 +126,7 @@ function App() {
               }
             />
 
-             <Route
+            <Route
               path="patients"
               element={
                 <ProtectedRoute>
