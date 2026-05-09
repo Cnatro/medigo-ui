@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScreenLoading from '../../shared/utils/loading';
 import { useAdmin } from './hooks/useAdmin';
 import './styles/users-management.css';
 import RegisterPopup from './RegisterPopup';
+import CreateSchedulePopup from './CreateSchedulePopup';
 
 const PAGE_SIZE = 6;
 
@@ -15,42 +16,51 @@ const UsersManagement = () => {
   const [role, setRole] = useState('');
   const [page, setPage] = useState(1);
   const [openRegister, setOpenRegister] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [openSchedule, setOpenSchedule] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000);
 
-  /* FILTER */
-  const filteredUsers = useMemo(() => {
-    return (users || [])
-      .filter(
-        (u: any) =>
-          u.name.toLowerCase().includes(search.toLowerCase()) ||
-          u.email.toLowerCase().includes(search.toLowerCase()),
-      )
-      .filter((u: any) => (role ? u.role === role : true));
-  }, [users, search, role]);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
-  /* PAGINATION */
-  const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE);
-
-  const pagedUsers = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return filteredUsers.slice(start, start + PAGE_SIZE);
-  }, [filteredUsers, page]);
+  useEffect(() => {
+    fetchUsers({
+      page,
+      limit: PAGE_SIZE,
+      filters: {
+        search: debouncedSearch,
+        role,
+      },
+    });
+  }, [page, debouncedSearch, role]);
 
   const goPrev = () => {
     if (page > 1) setPage(page - 1);
   };
 
-  const goNext = () => {
-    if (page < totalPages) setPage(page + 1);
-  };
-
   /* RESET PAGE WHEN FILTER CHANGE */
   useEffect(() => {
     setPage(1);
-  }, [search, role]);
+    setOpenMenuId(null);
+  }, [debouncedSearch, role]);
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenMenuId(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -99,17 +109,18 @@ const UsersManagement = () => {
         <table className="users-table">
           <thead>
             <tr>
-              <th>User</th>
+              <th>Người dùng</th>
               <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Created</th>
+              <th>Vai trò</th>
+              <th>Trạng thái</th>
+              <th>Ngày tạo</th>
+              <th></th>
             </tr>
           </thead>
 
           <tbody>
-            {pagedUsers?.length > 0 ? (
-              pagedUsers.map((user: any) => (
+            {users?.items?.length > 0 ? (
+              users.items.map((user: any) => (
                 <tr key={user.id}>
                   {/* USER */}
                   <td>
@@ -146,6 +157,57 @@ const UsersManagement = () => {
                   <td className="date">
                     {new Date(user.created_at).toLocaleDateString()}
                   </td>
+
+                  <td className="action-cell">
+                    <div className="action-wrapper">
+                      <button
+                        className="action-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId((prev) =>
+                            prev === user.id ? null : user.id,
+                          );
+                        }}
+                      >
+                        <i className="fas fa-ellipsis-v"></i>
+                      </button>
+
+                      {openMenuId === user.id && (
+                        <div className="action-dropdown">
+                          <button className="dropdown-item">
+                            <i className="bi bi-person-lines-fill"></i>
+                            <span>Xem chi tiết</span>
+                          </button>
+
+                          <button className="dropdown-item">
+                            <i className="bi bi-pencil-square"></i>
+                            <span>Chỉnh sửa</span>
+                          </button>
+
+                          {user.role === 'DOCTOR' && (
+                            <button
+                              className="dropdown-item"
+                              onClick={() => {
+                                setSelectedDoctor(user);
+                                setOpenSchedule(true);
+                                setOpenMenuId(null);
+                              }}
+                            >
+                              <i className="bi bi-calendar2-plus"></i>
+                              <span>Tạo lịch làm</span>
+                            </button>
+                          )}
+
+                          <div className="dropdown-divider" hidden></div>
+
+                          <button className="dropdown-item danger" hidden>
+                            <i className="bi bi-lock-fill"></i>
+                            <span>Khóa tài khoản</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -166,12 +228,12 @@ const UsersManagement = () => {
         </button>
 
         <div className="page-info">
-          Trang <b>{page}</b> / {totalPages || 1}
+          Trang <b>{page}</b> / {users?.pagination?.pages || 1}
         </div>
 
         <button
-          onClick={goNext}
-          disabled={page === totalPages || totalPages === 0}
+          onClick={() => setPage(page + 1)}
+          disabled={page >= (users?.pagination?.pages || 1)}
         >
           Sau
         </button>
@@ -187,6 +249,23 @@ const UsersManagement = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <RegisterPopup onClose={() => setOpenRegister(false)} />
+          </div>
+        </div>
+      )}
+
+      {openSchedule && selectedDoctor && (
+        <div
+          className="register-modal-overlay"
+          onClick={() => setOpenSchedule(false)}
+        >
+          <div
+            className="register-modal-content p-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CreateSchedulePopup
+              doctor={selectedDoctor}
+              onClose={() => setOpenSchedule(false)}
+            />
           </div>
         </div>
       )}

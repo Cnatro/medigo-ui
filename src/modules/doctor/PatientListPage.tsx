@@ -30,7 +30,12 @@ const PatientListPage = () => {
         <div className="card-body p-0">
           {error && <div className="p-3 text-danger">{error}</div>}
 
-          {!loading && !error && (
+          {patients.length === 0 ? (
+            <div className="empty-slots">
+              <i className="fas fa-calendar-times"></i>
+              <p>Không có bệnh nhân trống trong tuần này</p>
+            </div>
+          ) : (
             <table className="table table-hover mb-0">
               <thead>
                 <tr>

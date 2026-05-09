@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
     },
 
     {
-      label: 'Quản lý User',
+      label: 'Quản lý người dùng',
       icon: 'fas fa-users',
       path: '/admin/users',
     },

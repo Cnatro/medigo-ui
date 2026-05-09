@@ -11,8 +11,26 @@ export const adminService = {
   },
 
   // users
-  getUsers: async () => {
-    const res = await axiosClient.get(`${ADMIN_PREFIX}/users`);
+  getUsers: async ({
+    page,
+    limit,
+    filters,
+  }: {
+    page: number;
+    limit: number;
+    filters: {
+      search: string;
+      role: string;
+    };
+  }) => {
+    const res = await axiosClient.get(`${ADMIN_PREFIX}/users`, {
+      params: {
+        page,
+        limit,
+        'filter[search]': filters.search,
+        'filter[role]': filters.role,
+      },
+    });
     return res.data.data;
   },
 
@@ -23,8 +41,27 @@ export const adminService = {
   },
 
   // schedules
-  getSchedules: async () => {
-    const res = await axiosClient.get(`${ADMIN_PREFIX}/schedules`);
+  getSchedules: async ({
+    page,
+    limit,
+    filters,
+  }: {
+    page: number;
+    limit: number;
+    filters: {
+      doctor_name: string;
+      clinic_id: string;
+    };
+  }) => {
+    const res = await axiosClient.get(`${ADMIN_PREFIX}/schedules`, {
+      params: {
+        page,
+        limit,
+        'filter[doctor_name]': filters.doctor_name,
+        'filter[clinic_id]': filters.clinic_id,
+      },
+    });
+
     return res.data.data;
   },
 
@@ -72,5 +109,13 @@ export const adminService = {
   registerUser: async (payload: any) => {
     const res = await axiosClient.post('/auth/register', payload);
     return res.data;
+  },
+  getDetailDoctor: async (id: string) => {
+    const res = await axiosClient.get(`${ADMIN_PREFIX}/doctors/${id}`);
+    return res.data.data;
+  },
+  createSchedule: async (payload: any) => {
+    const res = await axiosClient.post(`/schedules`, payload);
+    return res;
   },
 };

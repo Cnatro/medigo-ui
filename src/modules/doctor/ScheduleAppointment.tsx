@@ -35,7 +35,7 @@ const ScheduleAppointment = () => {
   if (loading) {
     return <ScreenLoading message="Đang tải..." />;
   }
-  
+
   return (
     <div className="schedule-page">
       {/* Header */}
@@ -147,48 +147,56 @@ const ScheduleAppointment = () => {
       </div>
 
       {/* Calendar */}
-      <div className="calendar-wrapper">
-        <table className="calendar-table">
-          <thead>
-            <tr>
-              <th>Giờ</th>
+      {timeRanges.length === 0 ? (
+        <div className="empty-slots">
+          <i className="fas fa-calendar-times"></i>
+          <p>Không có lịch trong tuần này</p>
+          <span>Vui lòng chọn tuần khác</span>
+        </div>
+      ) : (
+        <div className="calendar-wrapper">
+          <table className="calendar-table">
+            <thead>
+              <tr>
+                <th>Giờ</th>
 
-              {currentWeekDays.map((day) => (
-                <th key={day.dateText}>
-                  <div>{day.label}</div>
+                {currentWeekDays.map((day) => (
+                  <th key={day.dateText}>
+                    <div>{day.label}</div>
 
-                  <small>{day.dateText}</small>
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {timeRanges.map((time) => (
-              <tr key={time}>
-                <td className="time-column">{time}</td>
-
-                {currentWeekDays.map((day) => {
-                  const slot = getSlot(day.fullDate, time);
-
-                  return (
-                    <td
-                      key={`${day.dateText}-${time}`}
-                      className={getSlotClass(slot?.status)}
-                      onClick={() => slot && setSelectedSlot(slot)}
-                    >
-                      {slot?.status === 'booked' && 'Đang đặt'}
-                      {slot?.status === 'available' && 'Trống'}
-                      {slot?.status === 'closed' && 'Đã đóng'}
-                      {slot?.status === 'completed' && 'Hoàn tất'}
-                    </td>
-                  );
-                })}
+                    <small>{day.dateText}</small>
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            <tbody>
+              {timeRanges.map((time) => (
+                <tr key={time}>
+                  <td className="time-column">{time}</td>
+
+                  {currentWeekDays.map((day) => {
+                    const slot = getSlot(day.fullDate, time);
+
+                    return (
+                      <td
+                        key={`${day.dateText}-${time}`}
+                        className={getSlotClass(slot?.status)}
+                        onClick={() => slot && setSelectedSlot(slot)}
+                      >
+                        {slot?.status === 'booked' && 'Đang đặt'}
+                        {slot?.status === 'available' && 'Trống'}
+                        {slot?.status === 'closed' && 'Đã đóng'}
+                        {slot?.status === 'completed' && 'Hoàn tất'}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal */}
       {selectedSlot && (

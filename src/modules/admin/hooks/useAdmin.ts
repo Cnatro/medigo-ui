@@ -2,14 +2,37 @@
 import { useState } from 'react';
 import { adminService } from '../services/adminService';
 
+interface ScheduleState {
+  items: any[];
+  pagination: {
+    page?: number;
+    pages?: number;
+    total?: number;
+    limit?: number;
+  };
+}
+
+interface UserState {
+  items: any[];
+  pagination: {
+    page?: number;
+    pages?: number;
+    total?: number;
+    limit?: number;
+  };
+}
+
 export const useAdmin = () => {
   const [dashboardOverview, setDashboardOverview] = useState<any>(null);
 
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserState>({ items: [], pagination: {} });
 
   const [clinics, setClinics] = useState<any[]>([]);
 
-  const [schedules, setSchedules] = useState<any[]>([]);
+  const [schedules, setSchedules] = useState<ScheduleState>({
+    items: [],
+    pagination: {},
+  });
 
   const [paymentStats, setPaymentStats] = useState<any>(null);
 
@@ -20,6 +43,8 @@ export const useAdmin = () => {
   const [scheduleRequests, setScheduleRequests] = useState<any[]>([]);
 
   const [specialties, setSpecialties] = useState<any[]>([]);
+
+  const [userDetail, setUserDetail] = useState<any>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -37,11 +62,22 @@ export const useAdmin = () => {
     }
   };
 
-  const fetchUsers = async () => {
+  const fetchUsers = async ({
+    page,
+    limit,
+    filters,
+  }: {
+    page: number;
+    limit: number;
+    filters: {
+      search: string;
+      role: string;
+    };
+  }) => {
     setLoading(true);
 
     try {
-      const res = await adminService.getUsers();
+      const res = await adminService.getUsers({ page, limit, filters });
 
       setUsers(res);
     } catch (error) {
@@ -65,11 +101,26 @@ export const useAdmin = () => {
     }
   };
 
-  const fetchSchedules = async () => {
+  const fetchSchedules = async ({
+    page,
+    limit,
+    filters,
+  }: {
+    page: number;
+    limit: number;
+    filters: {
+      doctor_name: string;
+      clinic_id: string;
+    };
+  }) => {
     setLoading(true);
 
     try {
-      const res = await adminService.getSchedules();
+      const res = await adminService.getSchedules({
+        page,
+        limit,
+        filters: filters,
+      });
 
       setSchedules(res);
     } catch (error) {
@@ -156,6 +207,37 @@ export const useAdmin = () => {
       const res = await adminService.registerUser(payload);
       if (res.status === 201) {
         alert('tạo tài khoản thành công');
+        return res;
+      }
+    } catch (error: any) {
+      const msg = error?.message || 'Register failed';
+      console.log('Register user error:', msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getDetailDoctor = async (id: string) => {
+    setLoading(true);
+    try {
+      const res = await adminService.getDetailDoctor(id);
+      setUserDetail(res);
+    } catch (error: any) {
+      const msg = error?.message || 'Register failed';
+      console.log('Register user error:', msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createSchedule = async (payload: any) => {
+    setLoading(true);
+    try {
+      const res = await adminService.createSchedule(payload);
+      if (res.status === 201) {
+        alert('Tạo lịch làm việc thành công');
+
+        return res.data.data;
       }
     } catch (error: any) {
       const msg = error?.message || 'Register failed';
@@ -177,6 +259,7 @@ export const useAdmin = () => {
     settings,
     scheduleRequests,
     specialties,
+    userDetail,
 
     fetchDashboardOverview,
     fetchUsers,
@@ -188,5 +271,7 @@ export const useAdmin = () => {
     fetchScheduleRequests,
     fectchSpecialties,
     registerUser,
+    getDetailDoctor,
+    createSchedule,
   };
 };

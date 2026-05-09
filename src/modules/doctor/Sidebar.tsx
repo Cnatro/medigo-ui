@@ -37,11 +37,11 @@ const menuItems: MenuItem[] = [
   //   label: 'Thống kê',
   //   path: '/doctor/statistics',
   // },
-  {
-    icon: 'fa-solid fa-gear',
-    label: 'Cài đặt',
-    path: '/doctor/settings',
-  },
+  // {
+  //   icon: 'fa-solid fa-gear',
+  //   label: 'Cài đặt',
+  //   path: '/doctor/settings',
+  // },
 ];
 
 export const Sidebar: React.FC = () => {
