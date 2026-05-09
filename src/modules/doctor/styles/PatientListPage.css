@@ -127,3 +127,24 @@
     font-size: 12px;
   }
 }
+
+.empty-slots {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, var(--gray-50), #ffffff);
+  border-radius: 20px;
+  border: 2px dashed var(--gray-200);
+}
+
+.empty-slots i {
+  font-size: 3rem;
+  color: var(--gray-300);
+  margin-bottom: 16px;
+}
+
+.empty-slots p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  margin: 8px 0;
+}

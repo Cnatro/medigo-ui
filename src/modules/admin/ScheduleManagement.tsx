@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScreenLoading from '../../shared/utils/loading';
 import { useAdmin } from './hooks/useAdmin';
 import './styles/schedule.css';
@@ -65,28 +66,36 @@ const ScheduleManagement = () => {
   const [search, setSearch] = useState('');
   const [clinicId, setClinicId] = useState('');
   const [page, setPage] = useState(1);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
-    fetchSchedules();
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  useEffect(() => {
+    fetchSchedules({
+      page,
+      limit: PAGE_SIZE,
+      filters: {
+        doctor_name: debouncedSearch,
+        clinic_id: clinicId,
+      },
+    });
+  }, [page, debouncedSearch, clinicId]);
+
+  useEffect(() => {
     fetchClinics();
   }, []);
 
-  const filtered = useMemo(() => {
-    return (schedules || [])
-      .filter((doc: any) =>
-        doc.doctor_name.toLowerCase().includes(search.toLowerCase()),
-      )
-      .filter((doc: any) => (clinicId ? doc.clinic_id === clinicId : true));
-  }, [schedules, search, clinicId]);
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, clinicId]);
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-
-  const pagedData = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return filtered.slice(start, start + PAGE_SIZE);
-  }, [filtered, page]);
-
-  if (loading || schedules.length === 0) {
+  if (loading || schedules.items.length === 0) {
     return (
       <div className="loading-wrap">
         <ScreenLoading message="Đang tải lịch làm việc..." />
@@ -127,7 +136,7 @@ const ScheduleManagement = () => {
 
       {/* GRID */}
       <div className="doctor-grid">
-        {pagedData?.map((doc: any) => {
+        {schedules?.items?.map((doc: any) => {
           const schedules = normalizeSchedule(doc);
 
           return (
@@ -219,11 +228,11 @@ const ScheduleManagement = () => {
         </button>
 
         <span>
-          Trang {page} / {totalPages || 1}
+          Trang {page} / {schedules?.pagination?.pages || 1}
         </span>
 
         <button
-          disabled={page === totalPages}
+          disabled={page === schedules?.pagination?.pages}
           onClick={() => setPage(page + 1)}
         >
           Sau →
