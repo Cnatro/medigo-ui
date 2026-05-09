@@ -21,6 +21,8 @@ import ScheuleManagement from './modules/admin/ScheduleManagement';
 import PaymentsManagement from './modules/admin/PaymentsManagement';
 import ScheduleRequestsManagement from './modules/admin/ScheduleRequestsManagement';
 import SettingsManagement from './modules/admin/SettingsManagement';
+import PatientAppointmentsPage from './modules/paitent/AppointmentsPage';
+import PatientProfilePage from './modules/paitent/ProfilePage';
 
 function App() {
   return (
@@ -68,6 +70,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/patient"
+            element={
+              <ProtectedRoute>
+                <PatientProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/appointments"
+            element={
+              <ProtectedRoute>
+                <PatientAppointmentsPage />
               </ProtectedRoute>
             }
           />

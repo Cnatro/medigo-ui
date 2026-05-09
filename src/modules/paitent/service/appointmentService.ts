@@ -6,4 +6,14 @@ export const appointmentService = {
     const res = await axiosClient.post('/appointments', payload);
     return res.data;
   },
+
+  getHistoryAppointment: async () => {
+    const res = await axiosClient.get('/appointments/history');
+    return res.data;
+  },
+
+  getDetailAppointment: async (id: string) => {
+    const res = await axiosClient.get(`/appointments/${id}`);
+    return res.data;
+  }
 };
