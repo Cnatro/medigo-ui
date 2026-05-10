@@ -86,6 +86,7 @@ const RegisterPopup: React.FC<Props> = ({ onClose }) => {
     }
 
     await registerUser(payload);
+    onClose();
   };
 
   return (
@@ -223,6 +224,8 @@ const RegisterPopup: React.FC<Props> = ({ onClose }) => {
                   type="number"
                   placeholder="Kinh nghiệm (năm)"
                   className="form-control"
+                  min={0}
+                  max={100}
                   onChange={handleInputChange}
                 />
               </div>

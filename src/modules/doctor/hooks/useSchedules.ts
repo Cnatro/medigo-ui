@@ -107,7 +107,7 @@ const useSchedules = (params: { start_date?: string; end_date?: string }) => {
     } catch (err: any) {
       if (err.response?.status === 409) {
         alert(
-          'Đã đăng ký ca làm thêm vào ngày này. Vui lòng chờ quản trị viên duyệt hoặc chọn ngày khác.',
+          'Ca làm này đã có người đăng ký. Vui lòng chọn ca khác phù hợp hơn.',
         );
         return;
       }
@@ -136,8 +136,8 @@ const useSchedules = (params: { start_date?: string; end_date?: string }) => {
       await fetchStatistics();
     } catch (err: any) {
       if (err.response?.status === 409) {
-        alert(
-          'Đã đăng ký ca làm thêm vào ngày này. Vui lòng chờ quản trị viên duyệt hoặc chọn ngày khác.',
+       alert(
+          'Ca làm này đã có người đăng ký. Vui lòng chọn ca khác phù hợp hơn.',
         );
         return;
       }

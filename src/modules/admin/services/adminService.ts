@@ -51,6 +51,7 @@ export const adminService = {
     filters: {
       doctor_name: string;
       clinic_id: string;
+      specialty_id: string;
     };
   }) => {
     const res = await axiosClient.get(`${ADMIN_PREFIX}/schedules`, {
@@ -59,6 +60,7 @@ export const adminService = {
         limit,
         'filter[doctor_name]': filters.doctor_name,
         'filter[clinic_id]': filters.clinic_id,
+        'filter[specialty_id]': filters.specialty_id,
       },
     });
 
@@ -108,7 +110,7 @@ export const adminService = {
   },
   registerUser: async (payload: any) => {
     const res = await axiosClient.post('/auth/register', payload);
-    return res.data;
+    return res;
   },
   getDetailDoctor: async (id: string) => {
     const res = await axiosClient.get(`${ADMIN_PREFIX}/doctors/${id}`);

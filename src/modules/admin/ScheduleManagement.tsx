@@ -13,11 +13,17 @@ const PAGE_SIZE = 6;
 const normalizeSchedule = (doc: any) => {
   const map = new Map();
 
+  const specialtyMap = (doc.specialties || []).reduce((acc: any, sp: any) => {
+    acc[sp.id] = sp.name;
+    return acc;
+  }, {});
+
   const add = (list: any[], type: string) => {
     (list || []).forEach((s: any) => {
       map.set(s.id, {
         ...s,
         type,
+        specialty_name: specialtyMap[s.specialty_id] || '---',
       });
     });
   };
@@ -38,10 +44,17 @@ const getStatusClass = (status: string) => {
   switch (status) {
     case 'ACTIVE':
       return 'active';
+
     case 'LEAVE_PENDING':
-      return 'leave_pending';
+    case 'EXTRA_PENDING':
+    case 'WEEKEND_PENDING':
+      return 'pending';
+
     case 'LEAVE_APPROVED':
-      return 'leave_approved';
+    case 'EXTRA_APPROVED':
+    case 'WEEKEND_APPROVED':
+      return 'approved';
+
     default:
       return '';
   }
@@ -59,14 +72,47 @@ const getTypeLabel = (type: string) => {
   }
 };
 
+const getStatusLabel = (status: string) => {
+  switch (status) {
+    case 'LEAVE_PENDING':
+      return 'Chờ duyệt nghỉ';
+
+    case 'LEAVE_APPROVED':
+      return 'Nghỉ đã duyệt';
+
+    case 'EXTRA_PENDING':
+      return 'Tăng ca chờ duyệt';
+
+    case 'EXTRA_APPROVED':
+      return 'Tăng ca đã duyệt';
+
+    case 'WEEKEND_PENDING':
+      return 'Cuối tuần chờ duyệt';
+
+    case 'WEEKEND_APPROVED':
+      return 'Cuối tuần đã duyệt';
+
+    default:
+      return null;
+  }
+};
+
 const ScheduleManagement = () => {
-  const { schedules, loading, fetchSchedules, clinics, fetchClinics } =
-    useAdmin();
+  const {
+    schedules,
+    loading,
+    fetchSchedules,
+    clinics,
+    fetchClinics,
+    specialties,
+    fectchSpecialties,
+  } = useAdmin();
 
   const [search, setSearch] = useState('');
   const [clinicId, setClinicId] = useState('');
   const [page, setPage] = useState(1);
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [specialtyId, setSpecialtyId] = useState('');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -83,17 +129,22 @@ const ScheduleManagement = () => {
       filters: {
         doctor_name: debouncedSearch,
         clinic_id: clinicId,
+        specialty_id: specialtyId,
       },
     });
-  }, [page, debouncedSearch, clinicId]);
+  }, [page, debouncedSearch, clinicId, specialtyId]);
 
   useEffect(() => {
     fetchClinics();
   }, []);
 
   useEffect(() => {
+    fectchSpecialties();
+  }, []);
+
+  useEffect(() => {
     setPage(1);
-  }, [debouncedSearch, clinicId]);
+  }, [debouncedSearch, clinicId, specialtyId]);
 
   if (loading || schedules.items.length === 0) {
     return (
@@ -129,6 +180,20 @@ const ScheduleManagement = () => {
           {clinics?.map((c: any) => (
             <option key={c.id} value={c.id}>
               {c.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="select"
+          value={specialtyId}
+          onChange={(e) => setSpecialtyId(e.target.value)}
+        >
+          <option value="">Tất cả chuyên khoa</option>
+
+          {specialties?.map((sp: any) => (
+            <option key={sp.id} value={sp.id}>
+              {sp.name}
             </option>
           ))}
         </select>
@@ -181,6 +246,7 @@ const ScheduleManagement = () => {
                           {slots.map((s: any) => {
                             const typeLabel = getTypeLabel(s.type);
                             const statusClass = getStatusClass(s.status);
+                            const statusLabel = getStatusLabel(s.status);
 
                             return (
                               <div
@@ -188,21 +254,16 @@ const ScheduleManagement = () => {
                                 className={`slot ${statusClass} ${s.type.toLowerCase()}`}
                               >
                                 <div className="time">
+                                  {s.specialty_name} |{' '}
                                   {s.start_time.slice(0, 5)} -{' '}
                                   {s.end_time.slice(0, 5)}
                                 </div>
 
                                 <div className="type-tag">{typeLabel}</div>
 
-                                {s.status === 'LEAVE_APPROVED' && (
-                                  <div className="status-tag leave">
-                                    Nghỉ đã duyệt
-                                  </div>
-                                )}
-
-                                {s.status === 'LEAVE_PENDING' && (
-                                  <div className="status-tag pending">
-                                    Chờ duyệt nghỉ
+                                {statusLabel && (
+                                  <div className={`status-tag ${statusClass}`}>
+                                    {statusLabel}
                                   </div>
                                 )}
                               </div>

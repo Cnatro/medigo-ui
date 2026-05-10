@@ -25,6 +25,7 @@ import PatientListPage from './modules/doctor/PatientListPage';
 import PatientDetailPage from './modules/doctor/PatientDetailPage';
 import PatientAppointmentsPage from './modules/paitent/AppointmentsPage';
 import PatientProfilePage from './modules/paitent/ProfilePage';
+import DoctorLayout from './modules/paitent/DoctorLayout';
 
 function App() {
   return (
@@ -39,59 +40,52 @@ function App() {
               </ProtectedRoute>
             }
           />
+          /* PATIENT ROUTES */
+          <Route path="/" element={<DoctorLayout />}>
+            <Route
+              path="doctor-page"
+              element={
+                <ProtectedRoute>
+                  <DoctorPage />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* <Route
-            path="/doctor-dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardDoctor />
-              </ProtectedRoute>
-            }
-          /> */}
+            <Route
+              path="doctors/:id"
+              element={
+                <ProtectedRoute>
+                  <DoctorDetail />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/doctor-page"
-            element={
-              <ProtectedRoute>
-                <DoctorPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/doctors/:id"
-            element={
-              <ProtectedRoute>
-                <DoctorDetail />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile/patient"
-            element={
-              <ProtectedRoute>
-                <PatientProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/appointments"
-            element={
-              <ProtectedRoute>
-                <PatientAppointmentsPage />
-              </ProtectedRoute>
-            }
-          />
-
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile/patient"
+              element={
+                <ProtectedRoute>
+                  <PatientProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="appointments"
+              element={
+                <ProtectedRoute>
+                  <PatientAppointmentsPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+          /* DOCTOR ROUTES */
           <Route
             path="/doctor"
             element={
@@ -144,7 +138,7 @@ function App() {
               }
             />
           </Route>
-
+          /* ADMIN ROUTES */
           <Route
             path="/admin"
             element={
@@ -172,7 +166,6 @@ function App() {
 
             <Route path="settings" element={<SettingsManagement />} />
           </Route>
-
           <Route
             path="/login"
             element={
@@ -181,7 +174,6 @@ function App() {
               </PublicRoute>
             }
           />
-
           <Route
             path="/register"
             element={

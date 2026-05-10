@@ -17,6 +17,13 @@ const AIChatAssistant: React.FC<AIChatAssistantProps> = ({ onClose }) => {
     setMessage('');
   };
 
+  const slotsByDoctor: Record<string, any[]> =
+    data?.suggested_slots?.reduce((acc: any, slot: any) => {
+      if (!acc[slot.doctor_id]) acc[slot.doctor_id] = [];
+      acc[slot.doctor_id].push(slot);
+      return acc;
+    }, {}) || {};
+
   return (
     <div className="ai-assistant-card">
       {/* HEADER */}
@@ -76,7 +83,7 @@ const AIChatAssistant: React.FC<AIChatAssistantProps> = ({ onClose }) => {
             </div>
 
             {/* Doctors */}
-            <div className="info-card">
+            {/* <div className="info-card">
               <div className="info-title">
                 <i className="fas fa-user-md"></i>
                 <span>Bác sĩ gợi ý</span>
@@ -97,6 +104,91 @@ const AIChatAssistant: React.FC<AIChatAssistantProps> = ({ onClose }) => {
                         <i className="fas fa-star"></i>
                         {d.rating_avg || 'Chưa có đánh giá'}
                       </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div> */}
+            {/* Suggested Slots */}
+            {/* <div className="info-card">
+              <div className="info-title">
+                <i className="fas fa-calendar-alt"></i>
+                <span>Lịch khám gợi ý</span>
+              </div>
+
+              <div className="slots-list">
+                {data.suggested_slots?.length > 0 ? (
+                  data.suggested_slots.map((slot: any) => (
+                    <div key={slot.id} className="slot-item">
+                      <div className="slot-date">
+                        <i className="fas fa-calendar-day"></i>
+                        {slot.date}
+                      </div>
+
+                      <div className="slot-time">
+                        <i className="fas fa-clock"></i>
+                        {slot.start_time} - {slot.end_time}
+                      </div>
+
+                      {slot.doctor_id && (
+                        <div className="slot-doctor">
+                          <i className="fas fa-user-md"></i>
+                          {slot.doctor_id}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-muted">Không có lịch phù hợp</div>
+                )}
+              </div>
+            </div> */}
+
+            <div className="info-card">
+              <div className="info-title">
+                <i className="fas fa-user-md"></i>
+                <span>Bác sĩ & Lịch khám gợi ý</span>
+              </div>
+
+              <div className="doctor-slot-list">
+                {data.doctors.map((d: any) => (
+                  <div key={d.id} className="doctor-slot-item">
+                    {/* LEFT: Doctor */}
+                    <div className="doctor-info">
+                      <div className="doctor-name">
+                        <i className="fas fa-user-circle"></i>
+                        {d.full_name}
+                      </div>
+
+                      <div className="doctor-clinic">
+                        <i className="fas fa-building"></i>
+                        {d.clinic_name}
+                      </div>
+
+                      <div className="doctor-rating">
+                        <span className="rating-badge">
+                          <i className="fas fa-star"></i>
+                          {d.rating_avg ?? 'N/A'}
+                        </span>
+
+                        <span style={{ marginLeft: 8, color: '#6b7280' }}>
+                          {d.experience_years} năm KN
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* RIGHT: Slots */}
+                    <div className="doctor-slots">
+                      {slotsByDoctor[d.id]?.length > 0 ? (
+                        slotsByDoctor[d.id].map((slot: any) => (
+                          <div key={slot.id} className="slot-chip">
+                            <i className="fas fa-clock"></i>
+                            {slot.date} ({slot.start_time} - {slot.end_time})
+                          </div>
+                        ))
+                      ) : (
+                        <span className="text-muted">Không có lịch</span>
+                      )}
                     </div>
                   </div>
                 ))}
