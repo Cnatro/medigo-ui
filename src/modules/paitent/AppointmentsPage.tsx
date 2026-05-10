@@ -342,6 +342,29 @@ export default function PatientAppointmentsPage() {
     userInfo?.full_name || currentUser?.full_name || 'Người dùng';
   console.log('Tên hiển thị:', displayName);
 
+  const handleCancelAppointment = async () => {
+    if (!cancelTarget) return;
+
+    try {
+      setSubmitting(true);
+      console.log('Đang hủy lịch hẹn với ID:', cancelTarget);
+      await appointmentService.cancelAppointment(cancelTarget.id, '');
+
+      alert('Hủy lịch hẹn thành công');
+
+      setCancelTarget(null);
+
+      // reload lại danh sách
+      await fetchAll();
+    } catch (e: any) {
+      console.error(e);
+
+      alert(e?.response?.data?.message || 'Có lỗi xảy ra khi hủy lịch hẹn');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   /* ---- STYLES (unchanged) ---- */
   const s = {
     page: {
@@ -545,7 +568,7 @@ export default function PatientAppointmentsPage() {
           <button onClick={() => openDetail(apt)} style={s.btnOutline}>
             👁 Chi tiết
           </button>
-          {apt.status === 'PENDING' && (
+          {(apt.status === 'CONFIRMED' || apt.status === 'PENDING') && (
             <button onClick={() => setCancelTarget(apt)} style={s.btnDanger}>
               ✖ Hủy hẹn
             </button>
@@ -879,10 +902,11 @@ export default function PatientAppointmentsPage() {
               Không, giữ lại
             </button>
             <button
-              onClick={() => setCancelTarget(null)}
+              onClick={handleCancelAppointment}
+              disabled={submitting}
               style={{ ...s.btnPrimary, backgroundColor: '#dc2626' }}
             >
-              Xác nhận hủy
+              {submitting ? 'Đang hủy...' : 'Xác nhận hủy'}
             </button>
           </>
         }
