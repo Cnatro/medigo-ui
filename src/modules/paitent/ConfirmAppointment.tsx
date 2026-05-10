@@ -14,7 +14,7 @@ interface ConfirmAppointmentProps {
     reason?: string;
     doctorName?: string;
     doctorSpecialty?: string;
-    amout?: number;
+    amount?: number;
     date?: string;
   };
   onBack?: () => void;
@@ -30,6 +30,8 @@ const ConfirmAppointment: React.FC<ConfirmAppointmentProps> = ({
   const { createAppointment, loading } = useAppointment();
   const [submitting, setSubmitting] = useState(false);
 
+  console.log('Appointment Data in ConfirmAppointment:', appointmentData);
+
   const handleConfirm = async () => {
     if (submitting) return;
 
@@ -39,7 +41,7 @@ const ConfirmAppointment: React.FC<ConfirmAppointmentProps> = ({
       const payload = {
         time: appointmentData?.time,
         time_slot_id: appointmentData?.time_slot_id,
-        amount: appointmentData?.amout,
+        amount: appointmentData?.amount,
         doctor_specialty_id: appointmentData?.doctor_specialty_id,
         reason: appointmentData?.reason,
       };
@@ -133,6 +135,10 @@ const ConfirmAppointment: React.FC<ConfirmAppointmentProps> = ({
               <div className="info-value">
                 {appointmentData?.date} ( {appointmentData?.time} )
               </div>
+            </div>
+             <div className="info-card">
+              <div className="info-label">Giá tiền</div>
+              <div className="info-value">{appointmentData?.amount?.toLocaleString('vi-VN') ?? 'Chưa có tiền'} đ</div>
             </div>
             <div className="info-card">
               <div className="info-label">Bệnh nhân</div>

@@ -1,0 +1,131 @@
+.booking-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.booking-modal {
+  width: 900px;
+  max-width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.booking-steps {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.step {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step.active {
+  background: #2563eb;
+  color: white;
+}
+
+.booking-doctor-info {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.doctor-avatar-small {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #dbeafe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.btn-cancel {
+  padding: 10px 24px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 10px;
+}
+
+.btn-next {
+  padding: 10px 24px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 10px;
+}
+.booking-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.booking-week-header h6 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.week-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.week-nav-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #2563eb;
+  transition: 0.2s;
+}
+
+.week-nav-btn:hover:not(:disabled) {
+  background: #2563eb;
+  color: white;
+}
+
+.week-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.week-range {
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.booking-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}

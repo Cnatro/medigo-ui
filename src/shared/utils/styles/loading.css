@@ -117,17 +117,56 @@
 
 /* Logo chính */
 .loading-logo {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+  width: 72px;
+  height: 72px;
+  object-fit: cover; /* ảnh đầy hơn, tránh cảm giác nhỏ lọt thỏm */
+  border-radius: 20px;
+
   position: relative;
-  z-index: 2;
+  z-index: 3;
+
+  padding: 10px;
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 24px rgba(37, 99, 235, 0.12),
+    0 4px 10px rgba(0, 0, 0, 0.05);
+
   animation: logoBreath 2s ease-in-out infinite;
-  filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.2));
+}
+
+/* Glow nên đặt ở wrapper thay vì img */
+.logo-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(
+    circle,
+    rgba(37, 99, 235, 0.18) 0%,
+    rgba(37, 99, 235, 0.05) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 1;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 }
 
 @keyframes logoBreath {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
@@ -207,7 +246,11 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   border-radius: 50%;
   box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
 }
@@ -256,7 +299,8 @@
 }
 
 @keyframes textFade {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
   }
   50% {
@@ -288,7 +332,9 @@
 }
 
 @keyframes dotBounce {
-  0%, 60%, 100% {
+  0%,
+  60%,
+  100% {
     transform: translateY(0);
   }
   30% {
@@ -310,7 +356,11 @@
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   border-radius: 4px;
   animation: progress 2s ease-in-out infinite;
 }
@@ -337,7 +387,7 @@
   position: relative;
 }
 
-.loading-logo::after {
+/* .loading-logo::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -349,10 +399,11 @@
   border-radius: 50%;
   animation: glow 2s ease-in-out infinite;
   pointer-events: none;
-}
+} */
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.8);
   }
@@ -370,16 +421,16 @@
     width: 100px;
     height: 100px;
   }
-  
+
   .loading-logo {
     width: 60px;
     height: 60px;
   }
-  
+
   .loading-message {
     font-size: 0.9rem;
   }
-  
+
   .progress-bar-container {
     width: 160px;
   }
@@ -390,16 +441,16 @@
     width: 80px;
     height: 80px;
   }
-  
+
   .loading-logo {
     width: 50px;
     height: 50px;
   }
-  
+
   .loading-message {
     font-size: 0.85rem;
   }
-  
+
   .loading-ring,
   .loading-ring-delayed {
     border-width: 2px;
@@ -414,7 +465,7 @@
     --overlay-bg: rgba(17, 24, 39, 0.96);
     --text-color: #9ca3af;
   }
-  
+
   .loading-logo {
     filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.3));
   }

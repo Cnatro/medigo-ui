@@ -1,23 +1,17 @@
-
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --primary-light: #dbeafe;
+  --primary: #0066cc;
+  --primary-light: #f0f7ff;
   --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-600: #6b7280;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --gray-50: #fafbfc;
+  --gray-100: #f3f5f7;
+  --gray-200: #e8ecf1;
+  --gray-300: #dde4eb;
+  --gray-600: #637381;
+  --gray-700: #2d3748;
+  --gray-800: #1a202c;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --transition: all 0.2s ease;
 }
 
 .doctor-card {
@@ -27,45 +21,51 @@
 .doctor-card .card {
   background: white;
   transition: var(--transition);
-  box-shadow: var(--shadow-md);
-  border-radius: 20px !important;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px !important;
 }
 
-.doctor-card:hover .card {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-xl);
-}
+/* .doctor-card:hover .card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--gray-300);
+} */
 
 /* Avatar */
 .doctor-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-light), #ffffff);
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  background: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid white;
-  box-shadow: var(--shadow-md);
+  border: none;
+  box-shadow: none;
   transition: var(--transition);
 }
 
 .doctor-card:hover .doctor-avatar {
-  transform: scale(1.05);
-  border-color: var(--primary);
+  transform: none;
+  background: var(--primary);
 }
 
 .doctor-avatar i {
   color: var(--primary);
-  font-size: 2.5rem;
+  font-size: 2rem;
+  transition: var(--transition);
+}
+
+.doctor-card:hover .doctor-avatar i {
+  color: white;
 }
 
 /* Doctor Name */
 .doctor-name {
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--gray-800);
-  letter-spacing: -0.3px;
+  letter-spacing: 0;
   transition: var(--transition);
 }
 
@@ -77,122 +77,123 @@
 .badge-online,
 .badge-offline {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
 }
 
 .badge-online {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  background: #ecf9f5;
+  color: var(--success);
 }
 
 .badge-offline {
-  background: var(--gray-200);
+  background: var(--gray-100);
   color: var(--gray-600);
 }
 
 /* Specialty */
 .doctor-specialty {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* Hospital & Experience */
 .doctor-hospital,
 .doctor-experience {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--gray-600);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
 }
 
 .doctor-hospital i,
 .doctor-experience i {
-  font-size: 0.7rem;
-  margin-right: 4px;
+  font-size: 0.65rem;
+  margin-right: 6px;
   color: var(--gray-400);
+  width: 14px;
 }
 
 /* Rating Wrapper */
 .rating-wrapper {
-  background: var(--gray-50);
-  padding: 6px 12px;
-  border-radius: 12px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* Stars container */
 .stars {
   display: inline-flex;
-  gap: 3px;
+  gap: 2px;
   align-items: center;
 }
 
-/* Star icon mặc định (màu xám) */
+/* Star icon default (gray) */
 .stars .fa-star {
   color: #d1d5db;
-  font-size: 12px;
+  font-size: 11px;
   transition: var(--transition);
 }
 
-/* Star filled (màu vàng) */
+/* Star filled (yellow) */
 .stars .fa-star.filled {
   color: #fbbf24;
 }
 
 /* Rating value */
 .rating-value {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--gray-700);
 }
 
 /* Rating count */
 .rating-count {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--gray-500);
 }
 
-/* Optional: Hover effect cho stars */
+/* Hover effect */
 .rating-wrapper:hover .stars .fa-star {
-  transform: scale(1.05);
+  transform: none;
 }
 
 /* Tags */
 .tags-wrapper {
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .tag-language,
 .tag-insurance {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.65rem;
   font-weight: 500;
   transition: var(--transition);
 }
 
 .tag-language {
-  background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-  color: #9333ea;
+  background: #f3f4f6;
+  color: var(--gray-700);
 }
 
 .tag-insurance {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #1e40af;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .tag-language:hover,
 .tag-insurance:hover {
-  transform: translateY(-2px);
+  transform: none;
 }
 
 /* Price Section */
@@ -201,10 +202,10 @@
 }
 
 .fee-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   color: var(--gray-500);
 }
 
@@ -213,33 +214,34 @@
 }
 
 .price-item {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .specialty-name {
   color: var(--gray-600);
   font-weight: 500;
-  margin-right: 6px;
 }
 
 .price-value {
   color: var(--primary);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
 }
 
 /* Action Buttons */
 .action-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-chat,
 .btn-book {
-  padding: 8px 18px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: 600;
   transition: var(--transition);
   cursor: pointer;
@@ -252,60 +254,54 @@
 .btn-chat {
   background: white;
   color: var(--gray-700);
-  border: 1.5px solid var(--gray-200);
+  border: 1px solid var(--gray-300);
 }
 
 .btn-chat:hover {
-  background: var(--gray-100);
-  border-color: var(--gray-300);
-  transform: translateY(-2px);
+  background: var(--gray-50);
+  border-color: var(--gray-400);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-book {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: var(--primary);
   color: white;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .btn-book:hover {
-  background: linear-gradient(135deg, var(--primary-dark), #1e3a8a);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: #0052a3;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-chat:active,
 .btn-book:active {
-  transform: translateY(0);
+  opacity: 0.95;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .doctor-card .card-body {
-    padding: 20px !important;
+    padding: 16px !important;
   }
 
   .doctor-avatar {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
   }
 
   .doctor-avatar i {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
   }
 
   .doctor-name {
     font-size: 1rem;
   }
 
-  .rating-wrapper {
-    padding: 4px 10px;
-  }
-
   .btn-chat,
   .btn-book {
     padding: 6px 14px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .action-buttons {
@@ -326,7 +322,7 @@
 
   .doctor-card .col-auto {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .doctor-avatar {
@@ -340,19 +336,19 @@
 
   .rating-wrapper {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .tags-wrapper {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
-/* Animation cho card */
+/* Animation for card */
 @keyframes cardFadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -361,37 +357,6 @@
 }
 
 .doctor-card {
-  animation: cardFadeIn 0.4s ease-out forwards;
+  animation: cardFadeIn 0.3s ease-out forwards;
   animation-delay: calc(var(--animation-order, 0) * 0.05s);
-}
-
-/* Hiệu ứng ripple khi click */
-.doctor-card .card {
-  position: relative;
-  overflow: hidden;
-}
-
-.doctor-card .card::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(37, 99, 235, 0.1) 0%,
-    rgba(37, 99, 235, 0) 70%
-  );
-  transform: translate(-50%, -50%);
-  transition:
-    width 0.6s,
-    height 0.6s;
-  pointer-events: none;
-}
-
-.doctor-card:active .card::after {
-  width: 300px;
-  height: 300px;
 }

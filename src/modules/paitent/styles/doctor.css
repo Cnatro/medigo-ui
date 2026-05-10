@@ -706,3 +706,61 @@
 .shadow-hover:hover {
   box-shadow: var(--shadow-lg);
 }
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 200px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  z-index: 999;
+
+  /* animation */
+  transform-origin: top right;
+  animation: fadeInScale 0.18s ease-out;
+}
+
+/* mũi nhọn nhỏ cho dropdown */
+.profile-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item {
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* hover mượt + cảm giác “app thật” */
+.dropdown-item:hover {
+  background: #f5f7fb;
+  padding-left: 18px;
+  color: #1a73e8;
+}
+
+/* animation xuất hiện */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
