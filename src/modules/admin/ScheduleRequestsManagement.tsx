@@ -113,7 +113,7 @@ const ScheduleRequestsManagement = () => {
                   </button>
                 </td>
 
-                <td>Thứ {item.day_of_week + 1}</td>
+                <td>{item.day_label}</td>
 
                 <td>
                   {item.start_time} - {item.end_time}

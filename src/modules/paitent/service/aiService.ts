@@ -13,6 +13,7 @@ export interface AIFormattedResponse {
   doctors: any[];
   symptoms: any[];
   specialties: any[];
+  suggested_slots: any[];
 }
 
 export const aiService = {
@@ -36,6 +37,7 @@ export const aiService = {
         doctors: raw?.doctors || [],
         symptoms: raw?.symptoms || [],
         specialties: raw?.specialties || [],
+        suggested_slots: raw?.suggested_slots || [],
       };
     } catch (error: any) {
       console.error('AI SERVICE ERROR:', error);
@@ -54,6 +56,7 @@ export const aiService = {
         doctors: [],
         symptoms: [],
         specialties: [],
+        suggested_slots: [],
       };
     }
   },

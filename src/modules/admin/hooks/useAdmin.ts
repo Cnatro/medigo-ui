@@ -111,6 +111,7 @@ export const useAdmin = () => {
     filters: {
       doctor_name: string;
       clinic_id: string;
+      specialty_id: string;
     };
   }) => {
     setLoading(true);
@@ -207,9 +208,15 @@ export const useAdmin = () => {
       const res = await adminService.registerUser(payload);
       if (res.status === 201) {
         alert('tạo tài khoản thành công');
-        return res;
+        return res.data.data;
       }
     } catch (error: any) {
+      if (error.response?.status === 409) {
+        alert(
+          'Tài khoản với email này đã tồn tại. Vui lòng sử dụng email khác hoặc đăng nhập nếu bạn đã có tài khoản.',
+        );
+        return;
+      }
       const msg = error?.message || 'Register failed';
       console.log('Register user error:', msg);
     } finally {

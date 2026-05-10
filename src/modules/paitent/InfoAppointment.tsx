@@ -9,6 +9,7 @@ interface AppointmentInfoProps {
   onBack?: () => void;
   onContinue?: (data: any) => void;
   onClose?: () => void;
+  onFinish?: () => void;
   doctor: Doctor;
   selectedSlot: TimeSlot | null;
   doctorSpecialtyId: string;
@@ -19,6 +20,7 @@ interface AppointmentInfoProps {
 const InfoAppointment: React.FC<AppointmentInfoProps> = ({
   onContinue,
   onClose,
+  onFinish,
   doctor,
   selectedSlot,
   doctorSpecialtyId,
@@ -26,20 +28,29 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
   selectedDate,
 }) => {
   const { currentUser } = useAuth();
+
   const [formData, setFormData] = useState({
-    fullName: currentUser?.full_name,
-    phone: currentUser?.phone,
-    email: currentUser?.email,
+    fullName: currentUser?.full_name || '',
+    phone: currentUser?.phone || '',
+    email: currentUser?.email || '',
     reason: '',
   });
+
   const [showAppointmentPopup, setShowAppointmentPopup] = useState(false);
+  const [showInfoStep, setShowInfoStep] = useState(true);
   const [appointmentData, setAppointmentData] = useState<any>(null);
+
+  console.log('Amount in InfoAppointment:', amount);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleContinue = () => {
@@ -48,22 +59,23 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
       return;
     }
 
-    if (!formData.fullName?.trim()) {
-      alert('Vui lòng nhập họ và tên');
+    if (!formData.fullName.trim()) {
+      alert('Vui lòng nhập họ tên');
       return;
     }
 
-    if (!formData.phone?.trim()) {
+    if (!formData.phone.trim()) {
       alert('Vui lòng nhập số điện thoại');
       return;
     }
 
-    if (!formData.email?.trim()) {
+    if (!formData.email.trim()) {
       alert('Vui lòng nhập email');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(formData.email)) {
       alert('Email không hợp lệ');
       return;
@@ -72,23 +84,17 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
     const appointmentPayload = {
       time: selectedSlot.time,
       time_slot_id: selectedSlot.id,
-
       patientName: formData.fullName,
       phone: formData.phone,
       email: formData.email,
       reason: formData.reason,
-
       doctorName: `BS ${doctor.name}`,
       doctorSpecialty: `${doctor.specialties
         ?.map((s) => s.name)
         .join(', ')} • ${doctor.clinic}`,
       doctor_specialty_id: doctorSpecialtyId,
-      amout: amount,
-      date: selectedDate ? selectedDate : '',
-
-      // suggestedSpecialty: doctor.specialties?.[0]?.name || '',
-      // suggestedDoctor: doctor.name,
-      // symptomGroup: 'Chung',
+      amount: amount,
+      date: selectedDate || '',
     };
 
     setAppointmentData(appointmentPayload);
@@ -97,125 +103,149 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
       onContinue(appointmentPayload);
     }
 
+    // Ẩn info step
+    setShowInfoStep(false);
+
+    // Hiện confirm step
     setShowAppointmentPopup(true);
   };
 
   return (
-    <div className="info-appointment-container">
-      <div className="info-appointment-card">
-        {/* Header */}
-        <div className="card-header">
-          <h2 className="card-title">Đặt lịch khám</h2>
-          <button className="close-button" aria-label="Close" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
+    <>
+      {showInfoStep && (
+        <div className="info-appointment-container">
+          <div className="info-appointment-card">
+            {/* Header */}
+            <div className="info-booking-header">
+              <h2 className="info-booking-title">Đặt lịch khám</h2>
 
-        {/* Doctor Info */}
-        <div className="doctor-info">
-          <div className="doctor-avatar">
-            {/* Placeholder for doctor image */}
-            <div className="avatar-placeholder"></div>
-          </div>
-          <div className="doctor-details">
-            <h3 className="doctor-name">BS {doctor.name}</h3>
-            <p className="doctor-specialty">
-              {doctor.specialties?.map((s) => s.name).join(', ')} •{' '}
-              {doctor.clinic}
-            </p>
-          </div>
-        </div>
+              <button className="info-booking-close-btn" onClick={onClose}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
 
-        {/* Form */}
-        <div className="form-section">
-          <h3 className="section-title">Thông tin bệnh nhân</h3>
+            {/* Doctor info */}
+            <div className="info-booking-doctor-info">
+              <div className="info-booking-avatar">
+                <i className="fas fa-user-md"></i>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">
-                Họ và tên <span className="required">*</span>
-              </label>
-              <div className="input-wrapper">
-                <i className="fas fa-user input-icon"></i>
-                <input
-                  type="text"
-                  name="fullName"
-                  className="form-input"
-                  placeholder="Nhập họ và tên"
-                  value={formData.fullName}
+              <div className="info-booking-doctor-details">
+                <h3 className="info-booking-doctor-name">BS {doctor.name}</h3>
+
+                <p className="info-booking-specialty">
+                  {doctor.specialties?.map((s) => s.name).join(', ')} •{' '}
+                  {doctor.clinic}
+                </p>
+              </div>
+            </div>
+
+            {/* Form */}
+            <div className="info-booking-form-section">
+              <h3 className="info-booking-section-title">
+                Thông tin bệnh nhân
+              </h3>
+
+              <div className="info-booking-form-row">
+                <div className="info-booking-form-group">
+                  <label className="info-booking-label">Họ và tên *</label>
+
+                  <div className="info-booking-input-wrapper">
+                    <i className="fas fa-user info-booking-input-icon"></i>
+
+                    <input
+                      type="text"
+                      name="fullName"
+                      className="info-booking-input"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      placeholder="Nhập họ tên"
+                    />
+                  </div>
+                </div>
+
+                <div className="info-booking-form-group">
+                  <label className="info-booking-label">Số điện thoại *</label>
+
+                  <div className="info-booking-input-wrapper">
+                    <i className="fas fa-phone info-booking-input-icon"></i>
+
+                    <input
+                      type="text"
+                      name="phone"
+                      className="info-booking-input"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Nhập số điện thoại"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="info-booking-form-group">
+                <label className="info-booking-label">Email *</label>
+
+                <div className="info-booking-input-wrapper">
+                  <i className="fas fa-envelope info-booking-input-icon"></i>
+
+                  <input
+                    type="email"
+                    name="email"
+                    className="info-booking-input"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Nhập email"
+                  />
+                </div>
+              </div>
+
+              <div className="info-booking-form-group">
+                <label className="info-booking-label">Mô tả triệu chứng</label>
+
+                <textarea
+                  name="reason"
+                  className="info-booking-textarea"
+                  rows={4}
+                  value={formData.reason}
                   onChange={handleChange}
+                  placeholder="Mô tả triệu chứng..."
                 />
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">
-                Số điện thoại <span className="required">*</span>
-              </label>
-              <div className="input-wrapper">
-                <i className="fas fa-phone input-icon"></i>
-                <input
-                  type="tel"
-                  name="phone"
-                  className="form-input"
-                  placeholder="Nhập số điện thoại"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
+            {/* Actions */}
+            <div className="info-booking-actions">
+              <button
+                className="info-booking-btn info-booking-btn-outline"
+                onClick={onClose}
+              >
+                Quay lại
+              </button>
 
-          <div className="form-group">
-            <label className="form-label">
-              Email <span className="required">*</span>
-            </label>
-            <div className="input-wrapper">
-              <i className="fas fa-envelope input-icon"></i>
-              <input
-                type="email"
-                name="email"
-                className="form-input"
-                placeholder="Nhập địa chỉ email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Mô tả triệu chứng</label>
-            <div className="textarea-wrapper">
-              <textarea
-                name="reason"
-                className="form-textarea"
-                placeholder="Mô tả chi tiết các triệu chứng bạn đang gặp phải..."
-                rows={4}
-                value={formData.reason}
-                onChange={handleChange}
-              />
+              <button
+                className="info-booking-btn info-booking-btn-primary"
+                onClick={handleContinue}
+              >
+                Tiếp tục
+              </button>
             </div>
           </div>
         </div>
+      )}
 
-        {/* Actions */}
-        <div className="form-actions">
-          <button className="btn btn-outline" onClick={onClose}>
-            <i className="fas fa-arrow-left"></i> Quay lại
-          </button>
-          <button className="btn btn-primary" onClick={handleContinue}>
-            Tiếp tục <i className="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
       {showAppointmentPopup && (
         <ConfirmAppointment
-          onClose={() => setShowAppointmentPopup(false)}
-          onCloseInfo={() => onClose?.()}
           appointmentData={appointmentData}
+          onClose={() => {
+            setShowAppointmentPopup(false);
+            setShowInfoStep(true);
+          }}
+          onCloseInfo={() => {
+            onFinish?.();
+          }}
         />
       )}
-    </div>
+    </>
   );
 };
 

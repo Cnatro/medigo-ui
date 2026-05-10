@@ -1,12 +1,18 @@
-
 .ai-assistant-card {
   width: 500px;
   max-width: 85vw;
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.25), 0 10px 15px -6px rgba(0, 0, 0, 0.15);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  box-shadow:
+    0 20px 35px -8px rgba(0, 0, 0, 0.25),
+    0 10px 15px -6px rgba(0, 0, 0, 0.15);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   position: relative;
 }
 
@@ -354,7 +360,7 @@
   .ai-assistant-card {
     width: 380px;
   }
-  
+
   .ai-assistant-card .ai-body {
     max-height: 380px;
   }
@@ -365,8 +371,185 @@
     width: calc(100vw - 24px);
     max-width: calc(100vw - 24px);
   }
-  
+
   .ai-assistant-card .ai-body {
     max-height: 350px;
   }
+}
+
+.slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slot-item {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: 0.2s;
+}
+
+.slot-item:hover {
+  background: #eef6ff;
+  border-color: #93c5fd;
+}
+
+.slot-date,
+.slot-time,
+.slot-doctor {
+  font-size: 13px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.doctor-slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.doctor-slot-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+/* LEFT */
+.doctor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* RIGHT */
+.doctor-slots {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.slot-chip {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ===== DOCTOR + SLOT WRAPPER ===== */
+.doctor-slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* CARD CHA */
+.doctor-slot-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.doctor-slot-item:hover {
+  transform: translateY(-2px);
+  border-color: #93c5fd;
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.15);
+}
+
+/* LEFT DOCTOR */
+.doctor-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doctor-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.doctor-name i {
+  color: #6366f1;
+}
+
+.doctor-clinic {
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.doctor-rating {
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #d97706;
+  font-weight: 500;
+}
+
+/* RIGHT SLOTS */
+.doctor-slots {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* SLOT CHIP */
+.slot-chip {
+  background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+  color: #1d4ed8;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid #bfdbfe;
+}
+
+.slot-chip:hover {
+  background: #1d4ed8;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* empty */
+.doctor-slots .text-muted {
+  font-size: 11px;
+  color: #9ca3af;
 }
