@@ -64,18 +64,18 @@ function App() {
               path="profile"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  <PatientProfilePage />
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="profile/patient"
               element={
                 <ProtectedRoute>
                   <PatientProfilePage />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="appointments"
               element={

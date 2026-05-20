@@ -270,62 +270,25 @@ export default function PatientAppointmentsPage() {
     }
   };
 
-  // const openReview = async (apt: AppointmentListItem) => {
-  //     setReviewTarget(apt);
-  //     setReviewRating(5);
-  //     setReviewComment('');
-  //     try {
-  //         const res = await appointmentService.getDetailAppointment(apt.id);
-  //         if (res?.data) setReviewDetail(res.data);
-  //     } catch (e) { }
-  // };
-
   const openReview = (apt: AppointmentListItem) => {
     setReviewTarget(apt);
     setReviewRating(5);
     setReviewComment('');
   };
 
-  // const handleSubmitReview = async () => {
-  //     if (!reviewTarget || !reviewDetail) return;
-  //     setSubmitting(true);
-  //     try {
-  //         await reviewService.createReviews({
-  //             appointment_id: reviewTarget.id,
-  //             doctor_id: reviewDetail.doctor.id,
-  //             rating: reviewRating,
-  //             comment: reviewComment,
-  //         });
-  //         setReviewTarget(null);
-  //         setReviewDetail(null);
-  //     } catch (e) {
-  //         console.error(e);
-  //     } finally {
-  //         setSubmitting(false);
-  //     }
-  // };
-
   const handleSubmitReview = async () => {
     if (!reviewTarget) return;
     setSubmitting(true);
     try {
-      console.log('Payload gửi lên:', {
+      await reviewService.createReviews({
         appointment_id: reviewTarget.id,
         doctor_id: reviewTarget.doctor.id,
         rating: reviewRating,
         comment: reviewComment,
       });
-      await reviewService.createReviews({
-        appointment_id: reviewTarget.id,
-        doctor_id: reviewTarget.doctor.id, // 👈 lấy từ reviewTarget
-        rating: reviewRating,
-        comment: reviewComment,
-      });
       // Thành công
-      setReviewTarget(null);
-      alert('Cảm ơn bạn đã đánh giá!');
-      // Nên refresh lại danh sách để cập nhật trạng thái (tuỳ chọn)
-      // await fetchAll();
+      setReviewTarget(null)
+      await fetchAll();
     } catch (e: any) {
       console.error('Full error object:', e);
       console.error('Response data:', e.response?.data);
