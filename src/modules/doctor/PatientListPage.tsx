@@ -71,7 +71,7 @@ const PatientListPage = () => {
                     <td>{p.phone}</td>
 
                     <td>
-                      {p.status === 'PENDING' ? 'Đang chờ khám' : 'Đã khám'}
+                      {p.status === 'CONFIRMED' ? 'Đang chờ khám' : 'Đã khám'}
                     </td>
 
                     <td>
