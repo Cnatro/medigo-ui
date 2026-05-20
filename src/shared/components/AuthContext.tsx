@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await loginApi(data);
 
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.data.access_token);
+        sessionStorage.setItem('token', res.data.data.access_token);
 
         await fetchCurrentUser();
 
@@ -109,13 +109,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     setCurrentUser(null);
     navigate('/login');
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       fetchCurrentUser();
     }

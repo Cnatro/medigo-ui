@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 const PublicRoute = ({ children }: { children: JSX.Element }) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const { currentUser } = useAuth();
 
   if (token && currentUser) {
