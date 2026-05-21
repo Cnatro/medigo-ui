@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../shared/components/AuthContext';
-import logo from '@/images/logo.png';
+// import logo from '@/images/logo.png';
 import { userService } from './service/userService';
 
 interface UserProfile {
@@ -146,48 +146,8 @@ export default function PatientProfilePage() {
         btnSecondary: { padding: '9px 18px', borderRadius: 8, border: '1px solid #e5e7eb', backgroundColor: '#fff', color: '#555', fontWeight: 500, fontSize: 14, cursor: 'pointer' } as React.CSSProperties,
     };
 
-    if (loading) return (
-        <div style={s.page}>
-            <div style={s.header}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={s.logoBox}>M</div>
-                    <span style={{ fontWeight: 700, fontSize: 17 }}>MediCare</span>
-                </div>
-            </div>
-            <div style={{ textAlign: 'center', padding: 80, color: '#6b7280' }}>Đang tải...</div>
-        </div>
-    );
-
     return (
         <div style={s.page}>
-            {/* Header */}
-            <div className="doctor-header py-3 shadow-sm bg-white" ref={headerRef}>
-                <div className="container d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center gap-2">
-                        <img src={logo} className="header-logo" alt="logo" />
-                        <h5 className="mb-0 fw-bold">MediGo</h5>
-                    </div>
-                    <div className="d-flex align-items-center gap-3">
-                        <i className="fas fa-bell text-secondary"></i>
-                        <div
-                            className="d-flex align-items-center gap-2"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => navigate('/profile')}
-                        >
-                            <div className="doctor-avatar-mini">
-                                {currentUser?.avatar_url ? (
-                                    <img src={currentUser.avatar_url} alt="avatar" />
-                                ) : (
-                                    <div className="avatar-fallback">
-                                        <i className="fas fa-user-md"></i>
-                                    </div>
-                                )}
-                            </div>
-                            <span>{currentUser?.full_name || 'User'}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {/* Content */}
             <div style={s.content}>
