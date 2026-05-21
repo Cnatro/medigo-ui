@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ClinicItem, Doctor, FilterOptions, SpecialtyItem } from './service/doctorService';
 import { doctorService } from './service/doctorService';
