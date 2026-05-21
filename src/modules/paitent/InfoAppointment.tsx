@@ -40,7 +40,11 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
   const [showInfoStep, setShowInfoStep] = useState(true);
   const [appointmentData, setAppointmentData] = useState<any>(null);
 
-  console.log('Amount in InfoAppointment:', amount);
+  console.log('doctor in InfoAppointment:', doctor);
+  console.log('selectedSlot in InfoAppointment:', selectedSlot);
+  console.log('doctorSpecialtyId in InfoAppointment:', doctorSpecialtyId);
+  console.log('amount in InfoAppointment:', amount);
+  console.log('selectedDate in InfoAppointment:', selectedDate);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -96,6 +100,8 @@ const InfoAppointment: React.FC<AppointmentInfoProps> = ({
       amount: amount,
       date: selectedDate || '',
     };
+
+    console.log(appointmentData);
 
     setAppointmentData(appointmentPayload);
 

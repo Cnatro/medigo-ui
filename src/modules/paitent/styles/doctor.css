@@ -522,8 +522,8 @@
 /* ===================== */
 .chat-popup {
   position: fixed;
-  bottom: 100px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 1050;
   animation: fadeInUp 0.3s ease-out;
 }
