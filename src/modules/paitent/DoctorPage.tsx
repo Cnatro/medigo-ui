@@ -106,6 +106,7 @@ const DoctorPage: React.FC = () => {
                       minRating: 0,
                     })
                   }
+                  doctors={doctors}
                 />
               </div>
 

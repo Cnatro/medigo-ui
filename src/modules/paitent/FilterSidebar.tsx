@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import type { ClinicItem, FilterOptions, SpecialtyItem } from './service/doctorService';
+import React, { useEffect, useMemo, useState } from 'react';
+import type { ClinicItem, Doctor, FilterOptions, SpecialtyItem } from './service/doctorService';
 import { doctorService } from './service/doctorService';
 import './styles/filter-sidebar.css';
 
@@ -7,16 +7,19 @@ interface FilterSidebarProps {
   filters: FilterOptions;
   onFilterChange: (filters: FilterOptions) => void;
   onReset: () => void;
+  doctors: Doctor[];
 }
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   filters,
   onFilterChange,
   onReset,
+  doctors,
 }) => {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [clinics, setClinics] = useState<ClinicItem[]>([]);
   const [specialties, setSpecialties] = useState<SpecialtyItem[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +38,36 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    setPriceRange([filters.priceRange.min, filters.priceRange.max]);
+  }, [filters.priceRange]);
+
+  const availableClinicIds = useMemo(() => {
+    const ids = new Set<string>();
+    doctors.forEach(doc => doc.clinicId && ids.add(doc.clinicId));
+    return ids;
+  }, [doctors]);
+
+  const availableSpecialtyIds = useMemo(() => {
+    const ids = new Set<string>();
+    doctors.forEach(doc => {
+      doc.specialties?.forEach(spec => spec.id && ids.add(spec.id));
+    });
+    return ids;
+  }, [doctors]);
+
+  // Lọc danh sách hiển thị dựa trên dữ liệu bác sĩ
+  const filteredClinics = useMemo(() => {
+    if (availableClinicIds.size === 0) return [];
+    return clinics.filter(clinic => availableClinicIds.has(clinic.id));
+  }, [clinics, availableClinicIds]);
+
+  const filteredSpecialties = useMemo(() => {
+    if (availableSpecialtyIds.size === 0) return [];
+    return specialties.filter(spec => availableSpecialtyIds.has(spec.id));
+  }, [specialties, availableSpecialtyIds]);
+
 
   const handleSpecialtyChange = (id: string) => {
     const newList = filters.specialties.includes(id)
@@ -60,6 +93,15 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     onFilterChange({
       ...filters,
       sortBy: e.target.value as FilterOptions['sortBy'],
+    });
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newMax = parseInt(e.target.value);
+    setPriceRange([0, newMax]);
+    onFilterChange({
+      ...filters,
+      priceRange: { min: 0, max: newMax },
     });
   };
 
@@ -100,7 +142,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               Chuyên khoa
             </h6>
             <div className="filter-options">
-              {specialties.map((spec) => (
+              {/* {specialties.map((spec) => (
                 <label key={spec.id} className="filter-checkbox">
                   <input
                     type="checkbox"
@@ -110,7 +152,22 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   <span className="checkmark"></span>
                   <span className="checkbox-label">{spec.name}</span>
                 </label>
-              ))}
+              ))} */}
+              {filteredSpecialties.length > 0 ? (
+                filteredSpecialties.map((spec) => (
+                  <label key={spec.id} className="filter-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.specialties.includes(spec.id)}
+                      onChange={() => handleSpecialtyChange(spec.id)}
+                    />
+                    <span className="checkmark"></span>
+                    <span className="checkbox-label">{spec.name}</span>
+                  </label>
+                ))
+              ) : (
+                <div className="text-muted small px-2">Không có chuyên khoa nào trong kết quả</div>
+              )}
             </div>
           </div>
 
@@ -121,7 +178,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               Bệnh viện
             </h6>
             <div className="filter-options">
-              {clinics.slice(0, 6).map((clinic) => (
+              {/* {clinics.slice(0, 6).map((clinic) => (
                 <label key={clinic.id} className="filter-checkbox">
                   <input
                     type="checkbox"
@@ -131,7 +188,22 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   <span className="checkmark"></span>
                   <span className="checkbox-label">{clinic.name}</span>
                 </label>
-              ))}
+              ))} */}
+              {filteredClinics.length > 0 ? (
+                filteredClinics.slice(0, 6).map((clinic) => (
+                  <label key={clinic.id} className="filter-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.clinics.includes(clinic.id)}
+                      onChange={() => handleClinicsChange(clinic.id)}
+                    />
+                    <span className="checkmark"></span>
+                    <span className="checkbox-label">{clinic.name}</span>
+                  </label>
+                ))
+              ) : (
+                <div className="text-muted small px-2">Không có bệnh viện nào trong kết quả</div>
+              )}
             </div>
           </div>
 
@@ -149,15 +221,16 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 max="1000000"
                 step="50000"
                 value={priceRange[1]}
-                onChange={(e) => {
-                  const newMax = parseInt(e.target.value);
-                  setPriceRange([0, newMax]);
+                // onChange={(e) => {
+                //   const newMax = parseInt(e.target.value);
+                //   setPriceRange([0, newMax]);
 
-                  onFilterChange({
-                    ...filters,
-                    priceRange: { min: 0, max: newMax },
-                  });
-                }}
+                //   onFilterChange({
+                //     ...filters,
+                //     priceRange: { min: 0, max: newMax },
+                //   });
+                // }}
+                onChange={handlePriceChange}
               />
               <div className="price-labels">
                 <span className="price-min">0₫</span>
@@ -211,33 +284,34 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             filters.clinics.length > 0 ||
             filters.minRating > 0 ||
             filters.priceRange.max < 1000000) && (
-            <div className="active-filters">
-              <div className="active-filters-header">
-                <i className="fas fa-check-circle"></i>
-                <span>Bộ lọc đang áp dụng</span>
+              <div className="active-filters">
+                <div className="active-filters-header">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Bộ lọc đang áp dụng</span>
+                </div>
+                <div className="active-filters-list">
+                  {filters.specialties.length > 0 && (
+                    <span className="filter-tag">
+                      {filters.specialties.length} chuyên khoa
+                    </span>
+                  )}
+                  {filters.clinics.length > 0 && (
+                    <span className="filter-tag">
+                      {filters.clinics.length} bệnh viện
+                    </span>
+                  )}
+                  {filters.minRating > 0 && (
+                    <span className="filter-tag">{filters.minRating}+ sao</span>
+                  )}
+                  {filters.priceRange.max < 1000000 && (
+
+                    <span className="filter-tag">
+                      &lt; {filters.priceRange.max.toLocaleString('vi-VN')}đ
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="active-filters-list">
-                {filters.specialties.length > 0 && (
-                  <span className="filter-tag">
-                    {filters.specialties.length} chuyên khoa
-                  </span>
-                )}
-                {filters.clinics.length > 0 && (
-                  <span className="filter-tag">
-                    {filters.clinics.length} bệnh viện
-                  </span>
-                )}
-                {filters.minRating > 0 && (
-                  <span className="filter-tag">{filters.minRating}+ sao</span>
-                )}
-                {filters.priceRange.max < 1000000 && (
-                  <span className="filter-tag">
-                    &lt; {filters.priceRange.max.toLocaleString('vi-VN')}đ
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </div>
