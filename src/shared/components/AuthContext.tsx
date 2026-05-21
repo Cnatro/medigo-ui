@@ -11,6 +11,8 @@ import {
   type RegisterPayload,
 } from '../../modules/auth/authService';
 import { handleApiError } from '../utils/error';
+import { authApi } from '../../api/axiosClient';
+import { loginWithGoogle } from '../auth/loginGoogle';
 
 interface PatientProfile {
   id: string;
@@ -44,6 +46,7 @@ interface AuthContextType {
   logout: () => void;
   fetchCurrentUser: () => Promise<void>;
   updateCurrentUser: (formData: FormData) => Promise<void>;
+  googleLogin: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -73,6 +76,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setError(null);
 
       const res = await loginApi(data);
+
+      if (res.status === 200) {
+        sessionStorage.setItem('token', res.data.data.access_token);
+
+        await fetchCurrentUser();
+
+        navigate('/');
+      }
+    } catch (err: any) {
+      const msg = handleApiError(err);
+      setError(msg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const googleLogin = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const idToken = await loginWithGoogle();
+
+      const res = await authApi.googleLogin(idToken);
 
       if (res.status === 200) {
         sessionStorage.setItem('token', res.data.data.access_token);
@@ -147,6 +173,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         fetchCurrentUser,
         updateCurrentUser,
+        googleLogin,
       }}
     >
       {children}

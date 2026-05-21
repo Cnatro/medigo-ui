@@ -105,7 +105,7 @@ export const adminService = {
   },
 
   getSpecialties: async () => {
-    const res = await axiosClient.get(`/specialties`);
+    const res = await axiosClient.get(`/specialties/all`);
     return res.data.data;
   },
   registerUser: async (payload: any) => {

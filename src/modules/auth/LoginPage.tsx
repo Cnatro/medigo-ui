@@ -6,7 +6,7 @@ import { useAuth } from '../../shared/components/AuthContext';
 import ScreenLoading from '../../shared/utils/loading';
 
 const LoginPage: React.FC = () => {
-  const { login, isLoading } = useAuth();
+  const { login, isLoading, googleLogin } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
             <span>HOẶC TIẾP TỤC VỚI</span>
           </div>
 
-          <Button variant="light" className="google-btn w-100">
+          <Button variant="light" className="google-btn w-100" onClick={googleLogin}>
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="google"

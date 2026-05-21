@@ -66,7 +66,7 @@ const RegisterPage: React.FC = () => {
         <div className="register-wrapper">
           <div className="container">
             <div className="row justify-content-center">
-              <div className="col-lg-6 col-md-8">
+              <div className="col-lg-6 col-md-8 justify-content-center d-flex">
                 <div className="card register-card p-4 p-md-5">
                   <div className="register-header">
                     <h3>
