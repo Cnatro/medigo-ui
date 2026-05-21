@@ -145,11 +145,11 @@ export const useAdmin = () => {
     }
   };
 
-  const fetchPayments = async () => {
+  const fetchPayments = async (filter : any) => {
     setLoading(true);
 
     try {
-      const res = await adminService.getPayments();
+      const res = await adminService.getPayments(filter);
 
       setPayments(res);
     } catch (error) {

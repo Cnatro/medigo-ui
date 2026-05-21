@@ -74,8 +74,10 @@ export const adminService = {
   },
 
   // payments list
-  getPayments: async () => {
-    const res = await axiosClient.get(`${ADMIN_PREFIX}/payments`);
+  getPayments: async (filter: any) => {
+    const res = await axiosClient.get(`${ADMIN_PREFIX}/payments`, {
+      params: filter,
+    });
     return res.data.data;
   },
 

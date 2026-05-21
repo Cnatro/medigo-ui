@@ -61,7 +61,7 @@ const RegisterPage: React.FC = () => {
   return (
     <>
       {isLoading ? (
-        <ScreenLoading message="Đang đănhg ký..." show={isLoading} />
+        <ScreenLoading message="Đang đăng ký..." show={isLoading} />
       ) : (
         <div className="register-wrapper">
           <div className="container">
