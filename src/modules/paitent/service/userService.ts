@@ -7,7 +7,9 @@ export const userService = {
         return res.data;
     },
     updateUserInfo: async (payload: any) => {
-        const res = await axiosClient.patch('/users/me', payload);
+        const res = await axiosClient.patch('/users/me', payload, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
         return res.data;
     }
 };
