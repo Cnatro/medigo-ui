@@ -5,7 +5,6 @@ import RegisterPage from './modules/auth/RegisterPage';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import PublicRoute from './shared/components/PublicRoute';
 import { AuthProvider } from './shared/components/AuthContext';
-import ProfilePage from './modules/auth/ProfilePage';
 import { DashboardDoctor } from './modules/doctor/DashboardDoctor';
 import RoleRedirect from './shared/components/RoleRedirect';
 import DoctorPage from './modules/paitent/DoctorPage';
@@ -26,6 +25,7 @@ import PatientDetailPage from './modules/doctor/PatientDetailPage';
 import PatientAppointmentsPage from './modules/paitent/AppointmentsPage';
 import PatientProfilePage from './modules/paitent/ProfilePage';
 import DoctorLayout from './modules/paitent/DoctorLayout';
+import DoctorProfilePage from './modules/doctor/DoctorProfilePage';
 
 function App() {
   return (
@@ -107,6 +107,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ScheduleWork />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="doctor-profile"
+              element={
+                <ProtectedRoute>
+                  <DoctorProfilePage />
                 </ProtectedRoute>
               }
             />

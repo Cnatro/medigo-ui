@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles/DoctorDashboard.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface MenuItem {
   icon: string;
@@ -46,11 +46,12 @@ const menuItems: MenuItem[] = [
 
 export const Sidebar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <aside className={`${styles.sidebar} d-flex flex-column`}>
       <div className={styles.sidebarHeader}>
-        <div className={styles.logo}>MediGo</div>
+        <div className={styles.logo} onClick={() => navigate("/doctor/dashboard")}>MediGo</div>
       </div>
 
       <nav className="nav flex-column p-3">

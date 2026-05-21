@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles/DoctorDashboard.module.css';
 import type { User } from '../../shared/components/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface WelcomeHeaderProps {
   doctor: User | null;
@@ -18,6 +19,10 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
     month: 'long',
     day: 'numeric',
   });
+
+  const navigate = useNavigate();
+
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const clinic =
     doctor?.profile && 'clinic' in doctor.profile ? doctor.profile.clinic : '';
@@ -52,7 +57,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
         <div className={styles.profileSection}>
           <div className={styles.avatar} />
 
-          <div className={styles.profileInfo} onClick={logout}>
+          <div className={styles.profileInfo} onClick={() => setShowProfileMenu(!showProfileMenu)}>
             <p className={styles.doctorTitle}>{doctor?.full_name || ''}</p>
 
             <p className={styles.doctorDept}>
@@ -63,6 +68,26 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
           <div className={styles.notificationIcon}>
             <i className="fa-solid fa-bell"></i>
           </div>
+          {showProfileMenu && (
+            <div className="profile-dropdown shadow-sm">
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  setShowProfileMenu(false);
+                  navigate('/doctor/doctor-profile');
+                }}
+              >
+                Hồ sơ cá nhân
+              </div>
+
+              <div
+                className="dropdown-item"
+                onClick={logout}
+              >
+                Đăng xuất
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>
