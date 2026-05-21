@@ -6,7 +6,7 @@ interface Appointment {
   doctor_name: string;
   patient_name: string;
   specialty: string;
-  date_time: Date;
+  date_time: string;
   status: 'confirmed' | 'pending' | 'completed';
 }
 
@@ -32,11 +32,13 @@ const RecentAppointmentsTable: React.FC<RecentAppointmentsTableProps> = ({
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'confirmed':
+      case 'CONFIRMED':
         return 'Đã xác nhận';
-      case 'pending':
+      case 'CANCELLED':
+        return 'Hủy lịch';
+      case 'PENDING':
         return 'Chờ xác nhận';
-      case 'completed':
+      case 'COMPLETED':
         return 'Hoàn thành';
       default:
         return status;
@@ -61,10 +63,7 @@ const RecentAppointmentsTable: React.FC<RecentAppointmentsTableProps> = ({
             <td>{appointment.patient_name}</td>
             <td>{appointment.doctor_name}</td>
             <td>{appointment.specialty}</td>
-            <td>
-              {' '}
-              {new Date(appointment.date_time).toLocaleDateString('vi-VN')}
-            </td>
+            <td>{appointment.date_time}</td>
             <td>
               <span
                 className={`status-badge ${getStatusClass(appointment.status)}`}
